@@ -11,4 +11,4 @@ class WordAdmin(admin.ModelAdmin):
 
 @admin.register(Train)
 class TrainAdmin(admin.ModelAdmin):
-    list_display = ['word', 'user', 'correct_ans_cnt', 'status']
+    list_display = ['pk', 'word', 'user', 'correct_ans_cnt', 'status']

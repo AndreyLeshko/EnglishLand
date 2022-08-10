@@ -8,22 +8,26 @@
 {% endblock title %}
 
 {% block css_links %}
-    <link rel="stylesheet" href="{% static 'new_words/css/user_words_train.css' %}?n={% random_int %}">
+    <link rel="stylesheet" href="{% static 'new_words/css/words_en_ru_text.css' %}?n={% random_int %}">
 {% endblock css_links %}
 
 {% block page_content %}
     <div class="standart-container">
         <p>{{ cur_train.word.english|capfirst }}</p>
-        <form action="{% url 'words:user_words_train_result' %}" method="post">
+        <form action="{% url 'words:words_en_ru_text_result' %}" method="post">
+
             <p><input type="text" name="translate" class="translate_input"></p>
             <input type="hidden" name="word-en" value="{{ cur_train.word.english }}">
             <input type="hidden" name="word-ru" value="{{ cur_train.word.russian }}">
             <input type="hidden" name="train_id" value="{{ cur_train.id }}">
+
             {% csrf_token %}
             <p><input type="submit" value="Проверить" ></p>
 
-            <input name="studied" type="checkbox">
-            <label for="studied">Отметить слово как изученое</label>
+            <input type="hidden" name="stud" value="?">
+            <input name="stud" id="stud" type="checkbox" value="on">
+            <label for="stud">Отметить слово как изученое</label>
+
         </form>
     </div>
 {% endblock page_content %}
