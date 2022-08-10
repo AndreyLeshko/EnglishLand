@@ -16,7 +16,7 @@
         <p class="words">{{ cur_train.word.english|capfirst }}</p>
         <form action="{% url 'words:words_en_ru_text_result' %}" method="post">
 
-            <p><input type="text" name="translate" class="translate_input"></p>
+            <p><input type="text" name="translate" class="translate_input" autofocus></p>
             <input type="hidden" name="word-en" value="{{ cur_train.word.english }}">
             <input type="hidden" name="word-ru" value="{{ cur_train.word.russian }}">
             <input type="hidden" name="train_id" value="{{ cur_train.id }}">

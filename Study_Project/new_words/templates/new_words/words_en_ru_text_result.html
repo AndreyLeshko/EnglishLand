@@ -29,7 +29,9 @@
                 <p class="words">Другие переводы: {{ other_translates|join:" "  }}</p>
             {% endif %}
         {% endif %}
-
-        <p><a class="next-btn" href="{% url 'words:words_en_ru_text' %}">Дальше</a></p>
+            <form action="{% url 'words:words_en_ru_text' %}" method="get">
+                <input class="next-btn" type="submit" value="Дальше" autofocus>
+            </form>
+<!--        <p><a class="next-btn" href="{% url 'words:words_en_ru_text' %} autofocus">Дальше</a></p>-->
     </div>
 {% endblock page_content %}
