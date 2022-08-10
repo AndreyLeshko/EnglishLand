@@ -15,15 +15,21 @@
     <div class="standart-container">
         {% if is_correct %}
             <p class="right-ans">Верно</p>
-            <p>{{ word|capfirst }}</p>
-            <p>{{ translate|capfirst }}</p>
+            <p class="words">{{ word_en|capfirst }}</p>
+            <p class="words">{{ translate_attempt|capfirst }}</p>
+            {% if other_translates %}
+                <p class="words">Другие переводы: {{ other_translates|join:" " }}</p>
+            {% endif %}
         {% else %}
             <p class="wrong-ans">Неверно</p>
-            <p>{{ word|capfirst }}</p>
-            <p>{{ translate|capfirst }}</p>
-            <p>Правильный ответ - {{ right|capfirst }}</p>
+            <p class="words">{{ word_en|capfirst }}</p>
+            <p class="words">{{ translate_attempt|capfirst }}</p>
+            <p>Правильный ответ - <i>{{ right|capfirst }}</i></p>
+            {% if other_translates %}
+                <p class="words">Другие переводы: {{ other_translates|join:" "  }}</p>
+            {% endif %}
         {% endif %}
 
-        <a href="{% url 'words:words_en_ru_text' %}">Дальше</a>
+        <p><a class="next-btn" href="{% url 'words:words_en_ru_text' %}">Дальше</a></p>
     </div>
 {% endblock page_content %}

@@ -13,7 +13,7 @@
 
 {% block page_content %}
     <div class="standart-container">
-        <p>{{ cur_train.word.english|capfirst }}</p>
+        <p class="words">{{ cur_train.word.english|capfirst }}</p>
         <form action="{% url 'words:words_en_ru_text_result' %}" method="post">
 
             <p><input type="text" name="translate" class="translate_input"></p>
@@ -22,12 +22,15 @@
             <input type="hidden" name="train_id" value="{{ cur_train.id }}">
 
             {% csrf_token %}
-            <p><input type="submit" value="Проверить" ></p>
+            <p><input type="submit" value="Проверить" class="check-btn"></p>
 
-            <input type="hidden" name="stud" value="?">
-            <input name="stud" id="stud" type="checkbox" value="on">
-            <label for="stud">Отметить слово как изученое</label>
-
+            <div>
+                <div class="studied-div">
+                    <input type="hidden" name="stud" value="?">
+                    <input name="stud" id="stud" type="checkbox" value="on">
+                    <label for="stud">Отметить слово как изученое</label>
+                </div>
+            </div>
         </form>
     </div>
 {% endblock page_content %}

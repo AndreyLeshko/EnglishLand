@@ -26,32 +26,38 @@ def words_en_ru_text(request):
 
 @login_required
 def words_en_ru_text_result(request):
-    word = request.POST['word-en'].strip().lower()
-    translate = request.POST['translate'].strip().lower()
+    word_en = request.POST['word-en']
+    translate_attempt = request.POST['translate'].strip().lower()
     right_translate = request.POST['word-ru']
     train_id = request.POST['train_id']
 
-    print('===============================')
-    print(request.POST)
+    translates = Word.objects.filter(english=word_en).values('russian')
+    is_correct = False
+    other_translates_list = []
+    for i in translates:
+        if i['russian'] == translate_attempt:
+            is_correct = True
+            cur_train = Train.objects.get(pk=train_id)
+            cur_train.correct_ans_cnt += 1
+            cur_train.save()
+        other_translates_list.append(i['russian'])
+
+    if translate_attempt in other_translates_list:
+        other_translates_list.remove(translate_attempt)
+    if right_translate in other_translates_list:
+        other_translates_list.remove(right_translate)
 
     if 'on' in request.POST['stud']:
         cur_train = Train.objects.get(pk=train_id)
         cur_train.status = 'studied'
         cur_train.save()
 
-    if right_translate == translate:
-        is_correct = True
-        cur_train = Train.objects.get(pk=train_id)
-        cur_train.correct_ans_cnt += 1
-        cur_train.save()
-    else:
-        is_correct = False
-
     context = {
-        'word': word,
-        'translate': translate,
+        'word_en': word_en,
+        'translate_attempt': translate_attempt,
         'right': right_translate,
         'is_correct': is_correct,
+        'other_translates': other_translates_list,
     }
     return render(request, 'new_words/words_en_ru_text_result.html', context=context)
 
