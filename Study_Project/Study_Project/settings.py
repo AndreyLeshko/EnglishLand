@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
-from . import DB_CONF
+from . import CONF
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zc97chsd(b7s2gq1=e=8lkd%+o@1kik*qnua9$q7ktycpm9se2'
+SECRET_KEY = CONF.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,9 +89,9 @@ WSGI_APPLICATION = 'Study_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_CONF.NAME,
-        'USER': DB_CONF.USER,
-        'PASSWORD': DB_CONF.PASSWORD,
+        'NAME': CONF.NAME,
+        'USER': CONF.USER,
+        'PASSWORD': CONF.PASSWORD,
     }
 }
 
