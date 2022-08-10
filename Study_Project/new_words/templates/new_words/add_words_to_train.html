@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load random_numbers %}
+
+
+{% block title %}
+    Добавить новые слова
+{% endblock title %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{% static 'new_words/css/add_words_to_train.css' %}?n={% random_int %}">
+{% endblock css_links %}
+
+{% block page_content %}
+    <div class="standart-container">
+        <h1>Выберите слова для изучения:</h1>
+        <form action="." method="post">
+            {% for word in words %}
+                <p>
+                    <input name="{{ word.id }}" type="checkbox">
+                    <label for="{{ word.id }}">{{ word.english }}</label>
+                </p>
+            {% endfor %}
+            {% csrf_token %}
+            {% if words %}
+                <p><input class="add-words-btn" type="submit" value="Добавить слова"></p>
+            {% else %}
+                <p>Нет слов для добавления</p>
+            {% endif %}
+        </form>
+    </div>
+{% endblock page_content %}

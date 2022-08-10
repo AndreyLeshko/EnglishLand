@@ -1,0 +1,47 @@
+p {
+    margin: 0px;
+}
+
+.train-btn {
+    width: 350px;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 10px 10px;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #CBCBCB;
+    font-size: 30px;
+    color: black;
+}
+
+.train-btn:hover {
+    background-color: #D7D7D7;
+}
+
+.your-dict-header {
+    margin: 10px 0px;
+}
+
+.add-words-btn {
+    display: inline-block;
+    background-color: #284178;
+    font-size: 20px;
+    border-radius: 15px;
+    color: white;
+    padding: 5px 20px;
+    margin-top: 20px;
+}
+
+.add-words-btn a {
+    color: white;
+    font-weight: lighter;
+}
+
+.add-words-btn-p {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-words-btn:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,24 @@
+p {
+    font-size: 20px;
+}
+
+.standart-container {
+    display: block;
+    background-color: #bfc9da;
+    padding: 10px; 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 30px 0px;
+    text-align: center;
+    width: 500px;
+    align-self: center;
+}
+
+.login-link {
+    text-decoration: none;
+    color: blue;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}

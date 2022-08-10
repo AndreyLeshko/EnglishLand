@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load random_numbers %}
+
+
+{% block title %}
+    Личный кабинет
+{% endblock title %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{% static 'account/css/personal_page.css' %}?n={% random_int %}">
+{% endblock css_links %}
+
+{% block page_content %}
+    <div class="standart-container">
+        <h2>Здравствуйте <i>{{ request.user.first_name }}</i></h2>
+    </div>
+    <div class="standart-container">
+        <h2>Ваш прогресс:</h2>
+        <p>Изучено слов - {{ words_cnt.1.count }}</p>
+        <p>Слов на изучении - {{ words_cnt.0.count }}</p>
+    </div>
+    <div class="standart-container">
+        <p></p>
+        <p><a class="link" href="{% url 'account:edit' %}">Редактировать профиль</a></p>
+        <p><a class="link" href="{% url 'account:password_change' %}">Сменить пароль</a></p>
+        <p><a class="link" href="{% url 'account:logout' %}">Выйти из аккаунта</a></p>
+    </div>
+{% endblock page_content %}
