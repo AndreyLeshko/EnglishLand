@@ -101,6 +101,6 @@ def add_words_to_train(request):
             if i.isdigit():
                 word_instance = Word.objects.get(pk=i)
                 Train.objects.create(user=request.user, word=word_instance)
-    user_words = Train.objects.filter(user=request.user).values('word__pk')
-    words = Word.objects.exclude(pk__in=user_words).order_by('english')
+    user_words = Train.objects.filter(user=request.user).values('word__english')
+    words = Word.objects.exclude(english__in=user_words).order_by('english')
     return render(request, 'new_words/add_words_to_train.html', context={'words': words})
