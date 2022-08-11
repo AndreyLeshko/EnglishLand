@@ -17,8 +17,8 @@
         <form action="." method="post">
             {% for word in words %}
                 <p>
-                    <input name="{{ word.id }}" type="checkbox">
-                    <label for="{{ word.id }}">{{ word.english }}</label>
+                    <input name="{{ word.english }}" id="{{ word.english }}" type="checkbox">
+                    <label for="{{ word.english }}">{{ word.english }}</label>
                 </p>
             {% endfor %}
             {% csrf_token %}

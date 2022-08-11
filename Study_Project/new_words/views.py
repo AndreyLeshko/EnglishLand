@@ -110,10 +110,15 @@ def words_text_result(request, mode, how_translate):
 @login_required
 def add_words_to_train(request):
     if request.method == 'POST':
+        print(request.POST)
+        print('\n\n\n')
         for i in request.POST:
-            if i.isdigit():
-                word_instance = Word.objects.get(pk=i)
+            if 'on' in request.POST[i]:
+                word_instance = Word.objects.filter(english=i).first()
                 Train.objects.create(user=request.user, word=word_instance)
+        #     if i.isdigit():
+        #         word_instance = Word.objects.get(pk=i)
+        #         Train.objects.create(user=request.user, word=word_instance)
     user_words = Train.objects.filter(user=request.user).values('word__english')
-    words = Word.objects.exclude(english__in=user_words).order_by('english')
+    words = Word.objects.exclude(english__in=user_words).order_by('english').values('english').distinct()
     return render(request, 'new_words/add_words_to_train.html', context={'words': words})
