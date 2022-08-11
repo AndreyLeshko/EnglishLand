@@ -1,0 +1,43 @@
+.words {
+    margin: 0px;
+    padding: 10px;
+    font-size: 25px;
+}
+
+.other-translates {
+    font-size: 22px;
+    font-style: italic;
+}
+
+.right-ans {
+    color: green;
+    font-size: 30px;
+    border-bottom: 1px solid #64656D;
+    margin: 0px;
+    padding: 10px;
+}
+
+.wrong-ans {
+    color: red;
+    font-size: 30px;
+    border-bottom: 1px solid #64656D;
+    margin: 0px;
+    padding: 10px;
+}
+
+.right-translate {
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.next-btn {
+    background-color: rgba(23, 68, 161, 0.9);
+    color: white;
+    border-radius: 10px;
+    padding: 5px 15px;
+}
+
+.next-btn:hover {
+    background-color: rgba(23, 68, 161, 1);
+    text-decoration: underline;
+}
