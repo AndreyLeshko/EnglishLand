@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load random_numbers %}
+
+
+{% block title %}
+    Тренировка
+{% endblock title %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{% static 'new_words/css/words_text_result.css' %}?n={% random_int %}">
+{% endblock css_links %}
+
+{% block page_content %}
+    <div class="standart-container">
+        {% if is_correct %}
+            <p class="right-ans">Верно</p>
+            <p class="words">{{ word|capfirst }}</p>
+            <p class="words">{{ translate_attempt|capfirst }}</p>
+            {% if other_translates %}
+                <p class="other-translates">Другие переводы: {{ other_translates|join:" " }}</p>
+            {% endif %}
+        {% else %}
+            <p class="wrong-ans">Неверно</p>
+            <p class="words">{{ word|capfirst }}</p>
+            <p class="words">{{ translate_attempt|capfirst }}</p>
+            <p class="right-translate">Правильный ответ - <i>{{ translate|capfirst }}</i></p>
+            {% if other_translates %}
+                <p class="other-translates">Другие переводы: {{ other_translates|join:" "  }}</p>
+            {% endif %}
+        {% endif %}
+        <form action="{% url 'words:words_text' mode=mode how_translate=how_translate %}" method="get">
+            <input class="next-btn" type="submit" value="Дальше" autofocus>
+        </form>
+    </div>
+{% endblock page_content %}

@@ -21,11 +21,17 @@
                 <a href="{% url 'words:add_words_to_train' %}">Добавить слова для изучения</a>
             </div>
         </p>
-
-
-
-
     </div>
+
+    <div class="standart-container">
+        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='all_words' how_translate='en-ru' %}">Все слова en->ru</a></div></p>
+        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='all_words' how_translate='ru-en' %}">Все слова ru->en</a></div></p>
+        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">Пользовательские слова en->ru</a></div></p>
+        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='ru-en' %}">Пользовательские слова ru->en</a></div></p>
+        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='en-ru' %}">Повторение слов en->ru</a></div></p>
+        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='ru-en' %}">Повторение слов ru->en</a></div></p>
+    </div>
+
     <div class="standart-container">
         <p><div class="train-btn"><a href="{% url 'words:train_words_1' %}">Все слова</a></div></p>
         <p><div class="train-btn"><a href="#">Тренировка фраз</a></div></p>

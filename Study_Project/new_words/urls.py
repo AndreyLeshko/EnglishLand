@@ -7,6 +7,10 @@ app_name = 'words'
 
 urlpatterns = [
     path('api/words/', views.WordsAPIView.as_view()),
+
+    path('words-text/<mode>/<how_translate>/', views.words_text, name='words_text'),
+    path('words-text-result/<mode>/<how_translate>/', views.words_text_result, name='words_text_result'),
+
     path('en-ru-text/', views.words_en_ru_text, name='words_en_ru_text'),
     path('en-ru-text-result/', views.words_en_ru_text_result, name='words_en_ru_text_result'),
     path('echo-en-ru-text/', views.echo_words_en_ru_text, name='echo_words_en_ru_text'),

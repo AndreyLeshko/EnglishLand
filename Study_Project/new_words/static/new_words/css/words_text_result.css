@@ -4,6 +4,11 @@
     font-size: 25px;
 }
 
+.other-translates {
+    font-size: 22px;
+    font-style: italic;
+}
+
 .right-ans {
     color: green;
     font-size: 30px;
@@ -18,6 +23,11 @@
     border-bottom: 1px solid #64656D;
     margin: 0px;
     padding: 10px;
+}
+
+.right-translate {
+    font-size: 24px;
+    text-decoration: underline;
 }
 
 .next-btn {
