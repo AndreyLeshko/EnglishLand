@@ -1,6 +1,8 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% load random_numbers %}
+{% load my_filters %}
+
 
 
 {% block title %}
@@ -28,5 +30,38 @@
                 <p>Нет слов для добавления</p>
             {% endif %}
         </form>
+    </div>
+
+    <div class="pagination">
+<!--        <span class="step-links">-->
+<!--            {% if words.has_previous %}-->
+<!--                <a href="?page={{ words.previous_page_number }}">Назад</a>-->
+<!--            {% endif %}-->
+<!--        </span>-->
+<!--        <span class="current">-->
+<!--            Страница {{ words.number }}-->
+<!--        </span>-->
+<!--        <span>-->
+<!--            {% if words.has_next %}-->
+<!--                <a href="?page={{ words.next_page_number }}">Вперед</a>-->
+<!--            {% endif %}-->
+<!--        </span>-->
+        <div class="page-number-list">
+            {% for page_num in words.paginator.num_pages|times %}
+                {% if page_num == words.number %}
+                    <span class="selected-page-num">
+                        <span class="page-num-text">
+                            {{ page_num }}
+                        </span>
+                    </span>
+                {% else %}
+                    <span class="unselected-page-num">
+                        <span class="page-num-text">
+                            <a href="?page={{ page_num }}">{{ page_num }}</a>
+                        </span>
+                    </span>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock page_content %}

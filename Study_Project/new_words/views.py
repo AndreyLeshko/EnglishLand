@@ -2,10 +2,14 @@ from django.shortcuts import render
 from rest_framework import generics
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Word, Train
 from .serializers import WordSerializer
 
+
+# ======================================================================================================================
+# API
 
 class WordsAPIView(generics.ListAPIView):
     queryset = Word.objects.all()
@@ -120,5 +124,15 @@ def add_words_to_train(request):
         #         word_instance = Word.objects.get(pk=i)
         #         Train.objects.create(user=request.user, word=word_instance)
     user_words = Train.objects.filter(user=request.user).values('word__english')
-    words = Word.objects.exclude(english__in=user_words).order_by('english').values('english').distinct()
-    return render(request, 'new_words/add_words_to_train.html', context={'words': words})
+    new_words = Word.objects.exclude(english__in=user_words).order_by('english').values('english').distinct()
+    paginator = Paginator(new_words, 20)
+    page = request.GET.get('page')
+    try:
+        words = paginator.page(page)
+    except PageNotAnInteger:
+        words = paginator.page(1)
+    except EmptyPage:
+        words = paginator.page(paginator.num_pages)
+    # print(words.paginator.num_pages)
+    # print('\n\n\n')
+    return render(request, 'new_words/add_words_to_train.html', context={'words': words, 'page': page})
