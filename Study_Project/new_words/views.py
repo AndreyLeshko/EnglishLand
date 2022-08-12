@@ -23,6 +23,8 @@ class WordsAPIView(generics.ListAPIView):
 
 @login_required
 def words_text(request, mode, how_translate):
+    """Выбирает слово из нужной категории (все слова / на изучении / изученные), на заданном языке"""
+
     if how_translate == 'ru-en':
         source_lang = 'russian'
         translate_lang = 'english'
@@ -34,7 +36,6 @@ def words_text(request, mode, how_translate):
 
     if mode == 'all_words':
         word_obj = Word.objects.order_by('?').first()
-        print(type(word_obj), '\n\n\n')
         context['word'] = getattr(word_obj, source_lang)
         context['translate'] = getattr(word_obj, translate_lang)
         context['train_id'] = ''
@@ -59,6 +60,9 @@ def words_text(request, mode, how_translate):
 
 @login_required
 def words_text_result(request, mode, how_translate):
+    """
+    Проверяет правильность введенного перевода, выбирает другие возможные переводы, меняет статус (изучено/на изучении)
+    """
     word = request.POST['word']
 
     if how_translate == 'ru-en':
@@ -70,13 +74,13 @@ def words_text_result(request, mode, how_translate):
         translate_lang = 'russian'
         translates = Word.objects.filter(english=word).values(f'{translate_lang}')
 
-
     translate_attempt = request.POST['translate_attempt'].strip().lower()
     translate = request.POST['translate']
     train_id = request.POST['train_id']
 
     is_correct = False
     other_translates_list = []
+    # список возможных переводов слова
     for i in translates:
         if i[translate_lang] == translate_attempt:
             is_correct = True
@@ -86,15 +90,30 @@ def words_text_result(request, mode, how_translate):
                 cur_train.save()
         other_translates_list.append(i[translate_lang])
 
+    # убирает дублирование слов в разделе "другие переводы"
     if translate_attempt in other_translates_list:
         other_translates_list.remove(translate_attempt)
     if translate in other_translates_list and not is_correct:
         other_translates_list.remove(translate)
 
-    if 'on' in request.POST['studied']:
-        cur_train = Train.objects.get(pk=train_id)
-        cur_train.status = 'studied'
-        cur_train.save()
+    if request.POST.get('need_train'):
+        # добавляет слово для тренировки
+        if mode == 'all_words':
+            if source_lang == 'russian':
+                word_instance = Word.objects.filter(russian=word).first()
+            else:
+                word_instance = Word.objects.filter(english=word).first()
+            Train.objects.create(user=request.user, word=word_instance)
+        # отмечает слово как изученное
+        elif mode == 'user_words':
+            cur_train = Train.objects.get(pk=train_id)
+            cur_train.status = 'studied'
+            cur_train.save()
+        # возвращает слово для тренировки
+        elif mode == 'repeat_words':
+            cur_train = Train.objects.get(pk=train_id)
+            cur_train.status = 'on study'
+            cur_train.save()
 
     context = {
         'word': word,
@@ -113,16 +132,14 @@ def words_text_result(request, mode, how_translate):
 
 @login_required
 def add_words_to_train(request):
+    """Показывает список неизученных слов, отмеченные слова добавляет для тренировки"""
+
     if request.method == 'POST':
-        print(request.POST)
-        print('\n\n\n')
         for i in request.POST:
             if 'on' in request.POST[i]:
                 word_instance = Word.objects.filter(english=i).first()
                 Train.objects.create(user=request.user, word=word_instance)
-        #     if i.isdigit():
-        #         word_instance = Word.objects.get(pk=i)
-        #         Train.objects.create(user=request.user, word=word_instance)
+
     user_words = Train.objects.filter(user=request.user).values('word__english')
     new_words = Word.objects.exclude(english__in=user_words).order_by('english').values('english').distinct()
     paginator = Paginator(new_words, 20)

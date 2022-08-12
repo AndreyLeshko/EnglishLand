@@ -25,9 +25,17 @@
 
             <div>
                 <div class="studied-div">
-                    <input type="hidden" name="studied" value="?">
-                    <input name="studied" id="studied" type="checkbox" value="on">
-                    <label for="studied">Отметить слово как изученое</label>
+                    {% if mode == 'user_words' %}
+<!--                        <input type="hidden" name="studied" value="?">-->
+                        <input name="need_train" id="need_train" type="checkbox" value="off">
+                        <label for="need_train">Отметить слово как изученое</label>
+                    {% elif mode == 'repeat_words' %}
+                        <input name="need_train" id="need_train" type="checkbox" value="on">
+                        <label for="need_train">Забыл, вернуть для изучения</label>
+                    {% elif mode == 'all_words' %}
+                        <input name="need_train" id="need_train" type="checkbox" value="add">
+                        <label for="need_train">Добавить для изучения</label>
+                    {% endif %}
                 </div>
             </div>
         </form>
