@@ -133,6 +133,4 @@ def add_words_to_train(request):
         words = paginator.page(1)
     except EmptyPage:
         words = paginator.page(paginator.num_pages)
-    # print(words.paginator.num_pages)
-    # print('\n\n\n')
     return render(request, 'new_words/add_words_to_train.html', context={'words': words, 'page': page})
