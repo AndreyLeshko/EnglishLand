@@ -12,15 +12,27 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <h1>Онлайн тренажер для изучения английского</h1>
-    {% if request.user.is_authenticated %}
-        <h2>С возвращением, {{ request.user.first_name }}</h2>
-    {% else %}
-        <h2>Присоединяйтесь!</h2>
-        <h2>
-            <a href="{% url 'account:login' %}">Войти</a>
-            или
-            <a href="{% url 'account:register' %}">Зарегистрироваться</a>
-        </h2>
-    {% endif %}
+    <div class="standart-container">
+        <h1>Онлайн тренажер для изучения английского</h1>
+        {% if request.user.is_authenticated %}
+            <h2>С возвращением, {{ request.user.first_name }}</h2>
+        {% else %}
+            <h2>Присоединяйтесь!</h2>
+            <h2>
+                <a href="{% url 'account:login' %}">Войти</a>
+                или
+                <a href="{% url 'account:register' %}">Зарегистрироваться</a>
+            </h2>
+        {% endif %}
+    </div>
+
+    <div class="standart-container">
+        <h2>Английский для начинающих</h2>
+        <h3>Сделай первые шаги в изучении английского</h3>
+        <ul>
+            <li>Приобрести базовый словарный запас</li>
+            <li>Преодолеть языковый барьер</li>
+            <li>Приобрести практические навыки базовой грамматики</li>
+        </ul>
+    </div>
 {% endblock page_content %}

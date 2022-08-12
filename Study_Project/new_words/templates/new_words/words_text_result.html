@@ -18,7 +18,7 @@
             <p class="words">{{ word|capfirst }}</p>
             <p class="words">{{ translate_attempt|capfirst }}</p>
             {% if other_translates %}
-                <p class="other-translates">Другие переводы: {{ other_translates|join:" " }}</p>
+                <p class="other-translates">Другие переводы: {{ other_translates|join:"; " }}</p>
             {% endif %}
         {% else %}
             <p class="wrong-ans">Неверно</p>
@@ -26,7 +26,7 @@
             <p class="words">{{ translate_attempt|capfirst }}</p>
             <p class="right-translate">Правильный ответ - <i>{{ translate|capfirst }}</i></p>
             {% if other_translates %}
-                <p class="other-translates">Другие переводы: {{ other_translates|join:" "  }}</p>
+                <p class="other-translates">Другие переводы: {{ other_translates|join:"; "  }}</p>
             {% endif %}
         {% endif %}
         <form action="{% url 'words:words_text' mode=mode how_translate=how_translate %}" method="get">

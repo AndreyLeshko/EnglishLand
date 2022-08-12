@@ -20,20 +20,23 @@ input {
 
 .link {
     font-size: 18px;
-    border: 1px solid #84deda;
+    font-weight: normal;
     border-radius: 10px;
-    background-color: #84deda;
+    background-color: rgba(23, 68, 161, 0.8);
     padding: 5px;
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .link:hover {
     text-decoration: underline;
+    background-color: rgba(23, 68, 161, 1);
+
 }
 
 .login-button {
     background-color: #82B93C;
+    background-color: rgba(5, 207, 20, 1);
     font-size: 20px;
     border-radius: 10px;
     padding: 5px 10px;
