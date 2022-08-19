@@ -1,3 +1,6 @@
 /.idea/
 /venv/
-/Study_Project/Study_Project/CONF.py
+/Study_Project/CONF.py
+Dockerfile
+docker-compose.yml
+db.sqlite3
