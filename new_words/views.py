@@ -37,7 +37,7 @@ def words_text(request, mode, how_translate):
     if mode == 'all_words':
         word_obj = Word.objects.order_by('?').first()
         if not word_obj:
-            context['empty'] = 'True'
+            context['empty'] = 1
         else:
             context['word'] = getattr(word_obj, source_lang)
             context['translate'] = getattr(word_obj, translate_lang)
@@ -46,7 +46,7 @@ def words_text(request, mode, how_translate):
         cur_train_obj = Train.objects.filter(user=request.user).filter(status='on study').select_related(
             'word').order_by('?').first()
         if not cur_train_obj:
-            context['empty'] = 'True'
+            context['empty'] = 1
         else:
             context['word'] = getattr(cur_train_obj.word, source_lang)
             context['translate'] = getattr(cur_train_obj.word, translate_lang)
@@ -55,7 +55,7 @@ def words_text(request, mode, how_translate):
         cur_train_obj = Train.objects.filter(user=request.user).filter(status='studied').select_related(
             'word').order_by('?').first()
         if not cur_train_obj:
-            context['empty'] = 'True'
+            context['empty'] = 1
         else:
             context['word'] = getattr(cur_train_obj.word, source_lang)
             context['translate'] = getattr(cur_train_obj.word, translate_lang)

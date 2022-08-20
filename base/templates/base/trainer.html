@@ -12,24 +12,33 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="standart-container">
-        <h2 class="your-dict-header">Ваш словарь:</h2>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">Изучить слова</a></div></p>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='en-ru' %}">Повторить слова</a></div></p>
-        <p class="add-words-btn-p">
-            <div class="add-words-btn">
-                <a href="{% url 'words:add_words_to_train' %}">Добавить слова для изучения</a>
-            </div>
-        </p>
+<!--    <div class="standart-container">-->
+<!--        <h2 class="your-dict-header">Ваш словарь:</h2>-->
+<!--        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">Изучить слова</a></div></p>-->
+<!--        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='en-ru' %}">Повторить слова</a></div></p>-->
+<!--        <p class="add-words-btn-p">-->
+<!--            <div class="add-words-btn">-->
+<!--                <a href="{% url 'words:add_words_to_train' %}">Добавить слова для изучения</a>-->
+<!--            </div>-->
+<!--        </p>-->
+<!--    </div>-->
+    <div class="add-words-btn-container">
+        <div class="add-words-btn">
+            <a href="{% url 'words:add_words_to_train' %}">Добавить слова для изучения</a>
+        </div>
     </div>
 
-    <div class="standart-container">
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='all_words' how_translate='en-ru' %}">Все слова en->ru</a></div></p>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='all_words' how_translate='ru-en' %}">Все слова ru->en</a></div></p>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">Пользовательские слова en->ru</a></div></p>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='ru-en' %}">Пользовательские слова ru->en</a></div></p>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='en-ru' %}">Повторение слов en->ru</a></div></p>
-        <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='ru-en' %}">Повторение слов ru->en</a></div></p>
-    </div>
+    <div class="containers-flexbox">
+        <div class="train-words-container">
+            <h1>Изучить слова</h1>
+            <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">EN --> RU</a></div></p>
+            <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='ru-en' %}">RU --> EN</a></div></p>
+        </div>
 
+        <div class="train-words-container">
+            <h1>Повторить слова</h1>
+            <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='en-ru' %}">EN --> RU</a></div></p>
+            <p><div class="train-btn"><a href="{% url 'words:words_text' mode='repeat_words' how_translate='ru-en' %}">RU --> EN</a></div></p>
+        </div>
+    </div>
 {% endblock page_content %}

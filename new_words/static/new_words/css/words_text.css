@@ -36,3 +36,8 @@
     align-items: center;
     justify-content: center;
 }
+
+.blue-link a{
+    color: rgba(10, 17, 150, 1);
+    text-decoration: underline;
+}

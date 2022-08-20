@@ -11,8 +11,20 @@ from new_words.models import Train
 
 @login_required
 def personal_page(request):
-    words_cnt = Train.objects.values('status').annotate(count=Count('status')).order_by('status')
-    return render(request, 'account/personal_page.html', context={'words_cnt': words_cnt})
+    words_cnt = Train.objects.filter(user=request.user).values('status').annotate(count=Count('status')).order_by('status')
+
+    print('\n\n\n')
+    print(words_cnt)
+
+    context = {}
+
+    if not words_cnt:
+        context['on_study'] = 0
+        context['studied'] = 0
+    else:
+        context['on_study'] = words_cnt[0]['count']
+        context['studied'] = words_cnt[1]['count']
+    return render(request, 'account/personal_page.html', context=context)
 
 
 def register(request):

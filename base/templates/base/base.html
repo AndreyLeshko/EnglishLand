@@ -22,7 +22,7 @@
             {% if request.user.is_authenticated %}
                 <a href="{% url 'account:personal_page' %}" class="nav-link">Мой аккаунт</a>
                 {% if request.user.username == 'admin' %}
-                    <a href="{% url 'admin_panel' %}" class="nav-link">Админка</a>
+                    <a href="admin/" class="nav-link">Админка</a>
                 {% endif %}
             {% else %}
                 <a href="{% url 'account:login' %}" class="nav-link">Войти</a>
