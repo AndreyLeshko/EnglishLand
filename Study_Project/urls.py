@@ -16,10 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-
 urlpatterns = [
     path('', include('base.urls')),
     path('accounts/', include('account.urls')),
     path('words/', include('new_words.urls')),
-    path('admin/', admin.site.urls, name='admin_panel'),
+    path('admin/', admin.site.urls),
 ]

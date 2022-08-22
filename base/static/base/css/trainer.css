@@ -2,8 +2,24 @@ p {
     margin: 0px;
 }
 
+.containers-flexbox {
+    display:flex;
+    justify-content: center;
+}
+
+.train-words-container {
+    width: 400px;
+    display: inline;
+    background-color: white;
+    padding: 10px; 5px;
+    margin: 20px 40px;
+    border-radius: 10px;
+    align-self: center;
+    text-align: center;
+}
+
 .train-btn {
-    width: 350px;
+    width: 300px;
     display: inline-block;
     padding: 5px 10px;
     margin: 10px 10px;
@@ -12,6 +28,7 @@ p {
     border-color: #CBCBCB;
     font-size: 30px;
     color: black;
+    font-family: Tahoma;
 }
 
 .train-btn:hover {
@@ -22,14 +39,22 @@ p {
     margin: 10px 0px;
 }
 
+.add-words-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
 .add-words-btn {
-    display: inline-block;
-    background-color: #284178;
-    font-size: 20px;
-    border-radius: 15px;
+    display: inline-flex;
+    width: 600px;
+    background-color: rgba(40, 65, 120, 0.9);
+    font-size: 25px;
+    border-radius: 20px;
     color: white;
-    padding: 5px 20px;
+    padding: 8px 20px;
     margin-top: 20px;
+    justify-content: center;
+    text-align: center;
 }
 
 .add-words-btn a {
@@ -44,4 +69,5 @@ p {
 
 .add-words-btn:hover {
     text-decoration: underline;
+    background-color: rgba(40, 65, 120, 1);
 }

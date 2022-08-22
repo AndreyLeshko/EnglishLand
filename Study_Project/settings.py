@@ -26,8 +26,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'key')
 # SECURITY WARNING: don't run with debug turned on in production!
 if 'DEBUG' in os.environ:
     DEBUG = False
+    host = db_name = username = password = ''
 else:
     DEBUG = True
+    import Study_Project.CONF
+    host = Study_Project.CONF.HOST
+    db_name = Study_Project.CONF.NAME
+    username = Study_Project.CONF.USER
+    password = Study_Project.CONF.PASSWORD
+    SECRET_KEY = Study_Project.CONF.SECRET_KEY
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,10 +96,10 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST' : os.environ.get('POSTGRES_HOST', 'localhost'),
-        'NAME': os.environ.get('POSTGRES_DB', 'db_name'),
-        'USER': os.environ.get('POSTGRES_USER', 'username'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'password'),
+        'HOST': os.environ.get('POSTGRES_HOST', host),
+        'NAME': os.environ.get('POSTGRES_DB', db_name),
+        'USER': os.environ.get('POSTGRES_USER', username),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', password),
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }

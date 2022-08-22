@@ -36,21 +36,30 @@ def words_text(request, mode, how_translate):
 
     if mode == 'all_words':
         word_obj = Word.objects.order_by('?').first()
-        context['word'] = getattr(word_obj, source_lang)
-        context['translate'] = getattr(word_obj, translate_lang)
-        context['train_id'] = ''
+        if not word_obj:
+            context['empty'] = 1
+        else:
+            context['word'] = getattr(word_obj, source_lang)
+            context['translate'] = getattr(word_obj, translate_lang)
+            context['train_id'] = ''
     elif mode == 'user_words':
         cur_train_obj = Train.objects.filter(user=request.user).filter(status='on study').select_related(
-            'word').order_by('?').first()
-        context['word'] = getattr(cur_train_obj.word, source_lang)
-        context['translate'] = getattr(cur_train_obj.word, translate_lang)
-        context['train_id'] = cur_train_obj.pk
+            'word').order_by('last_try', '?').first()
+        if not cur_train_obj:
+            context['empty'] = 1
+        else:
+            context['word'] = getattr(cur_train_obj.word, source_lang)
+            context['translate'] = getattr(cur_train_obj.word, translate_lang)
+            context['train_id'] = cur_train_obj.pk
     elif mode == 'repeat_words':
         cur_train_obj = Train.objects.filter(user=request.user).filter(status='studied').select_related(
-            'word').order_by('?').first()
-        context['word'] = getattr(cur_train_obj.word, source_lang)
-        context['translate'] = getattr(cur_train_obj.word, translate_lang)
-        context['train_id'] = cur_train_obj.pk
+            'word').order_by('last_try', '?').first()
+        if not cur_train_obj:
+            context['empty'] = 1
+        else:
+            context['word'] = getattr(cur_train_obj.word, source_lang)
+            context['translate'] = getattr(cur_train_obj.word, translate_lang)
+            context['train_id'] = cur_train_obj.pk
 
     context['mode'] = mode
     context['how_translate'] = how_translate

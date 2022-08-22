@@ -4,15 +4,16 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 
+from services import account_funcs
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
-from new_words.models import Train
 
 
 @login_required
 def personal_page(request):
-    words_cnt = Train.objects.values('status').annotate(count=Count('status')).order_by('status')
-    return render(request, 'account/personal_page.html', context={'words_cnt': words_cnt})
+    context = {}
+    context.update(account_funcs.get_user_words_statistic(request.user))
+    return render(request, 'account/personal_page.html', context=context)
 
 
 def register(request):

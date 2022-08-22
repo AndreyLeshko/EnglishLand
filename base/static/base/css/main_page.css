@@ -1,0 +1,54 @@
+.main-page-container {
+    width: 1000px;
+    height: 1000px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: white;
+    align-self: center;
+    text-align: center;
+}
+
+.containers-line {
+    display: flex;
+    justify-content: space-around;
+}
+
+.progress-container {
+    width: 420px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 25px;
+}
+
+.login-container {
+    width: 420px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 25px;
+}
+
+.login-container a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.train-btn {
+    width: 300px;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 10px 10px;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #CBCBCB;
+    font-size: 30px;
+    color: black;
+    font-family: Tahoma;
+}
+
+.train-btn:hover {
+    background-color: #D7D7D7;
+}
