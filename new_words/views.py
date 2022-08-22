@@ -44,7 +44,7 @@ def words_text(request, mode, how_translate):
             context['train_id'] = ''
     elif mode == 'user_words':
         cur_train_obj = Train.objects.filter(user=request.user).filter(status='on study').select_related(
-            'word').order_by('?').first()
+            'word').order_by('last_try', '?').first()
         if not cur_train_obj:
             context['empty'] = 1
         else:
@@ -53,7 +53,7 @@ def words_text(request, mode, how_translate):
             context['train_id'] = cur_train_obj.pk
     elif mode == 'repeat_words':
         cur_train_obj = Train.objects.filter(user=request.user).filter(status='studied').select_related(
-            'word').order_by('?').first()
+            'word').order_by('last_try', '?').first()
         if not cur_train_obj:
             context['empty'] = 1
         else:

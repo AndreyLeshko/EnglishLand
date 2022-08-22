@@ -30,3 +30,4 @@ class Train(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     correct_ans_cnt = models.IntegerField(default=0)
     status = models.CharField(max_length=15, choices=status_list, default='on study')
+    last_try = models.DateField(auto_now=True)
