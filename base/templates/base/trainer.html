@@ -33,6 +33,8 @@
             <h1>Изучить слова</h1>
             <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">EN --> RU</a></div></p>
             <p><div class="train-btn"><a href="{% url 'words:words_text' mode='user_words' how_translate='ru-en' %}">RU --> EN</a></div></p>
+            <p><div class="train-btn"><a href="{% url 'words:words_with_variants' mode='user_words' how_translate='en-ru' %}">С вариантами <br> EN --> RU</a></div></p>
+            <p><div class="train-btn"><a href="{% url 'words:words_with_variants' mode='user_words' how_translate='ru-en' %}">С вариантами <br> RU --> EN</a></div></p>
         </div>
 
         <div class="train-words-container">

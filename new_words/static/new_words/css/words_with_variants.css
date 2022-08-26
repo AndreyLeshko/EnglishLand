@@ -1,0 +1,41 @@
+.variants {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.variant {
+    align-self: center;
+    vertical-align: middle;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Tahoma';
+    font-size: 30px;
+    font-weight: normal;
+    margin: 5px;
+    padding: 5px;
+}
+
+.variant:hover {
+    background-color: rgba(237, 238, 240, 1);
+    cursor: pointer;
+}
+
+.word {
+    font-size: 34px;
+}
+
+.next-btn {
+    font-size: 24px;
+    padding: 5px 10px;
+    background-color: rgba(23, 68, 161, 0.9);
+    color: white;
+    border-color: rgba(23, 68, 161, 0.9);
+    border-radius: 10px;
+}
+
+.next-btn:hover {
+    background-color: rgba(23, 68, 161, 1);
+    text-decoration: underline;
+}
