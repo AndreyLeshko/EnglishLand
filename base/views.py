@@ -15,3 +15,7 @@ def main_page(request):
 @login_required
 def trainer(request):
     return render(request, 'base/trainer.html')
+
+
+def section_in_development(request):
+    return render(request, 'base/section_in_development.html')

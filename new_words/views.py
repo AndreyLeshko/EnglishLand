@@ -1,6 +1,8 @@
+from random import shuffle
+
 from django.shortcuts import render
 from rest_framework import generics
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseRedirect, Http404, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -134,6 +136,53 @@ def words_text_result(request, mode, how_translate):
         'how_translate': how_translate,
     }
     return render(request, 'new_words/words_text_result.html', context=context)
+
+
+# ======================================================================================================================
+# перевод с вариантами en->ru / ru->en
+# mode = ['user_words']
+# how_translate = ['en-ru', 'ru-en']
+
+@login_required
+def words_with_variants(request, mode, how_translate):
+
+    if how_translate == 'ru-en':
+        source_lang = 'russian'
+        translate_lang = 'english'
+    else:
+        source_lang = 'english'
+        translate_lang = 'russian'
+
+    context = {}
+
+    if mode != 'user_words':
+        return HttpResponseNotFound(f'No such mode as {mode}')
+
+    cur_train_obj = Train.objects.filter(user=request.user).filter(status='on study').select_related(
+        'word').order_by('last_try', '?').first()
+    if not cur_train_obj:
+        context['empty'] = 1
+    else:
+        context['word'] = getattr(cur_train_obj.word, source_lang)
+        context['translate'] = getattr(cur_train_obj.word, translate_lang)
+        cur_train_obj.save()   # обновлляет дату последней попытки модели Train
+
+        variants_obj = Word.objects.filter(category=cur_train_obj.word.category)\
+                .exclude(english=cur_train_obj.word.english)\
+                .exclude(russian=cur_train_obj.word.russian)\
+                .order_by('?').values(translate_lang)[:3]
+
+        variants_list = []
+        for var in variants_obj:
+            variants_list.append(var[translate_lang])
+        variants_list.append(getattr(cur_train_obj.word, translate_lang))
+        shuffle(variants_list)
+        context['variants'] = variants_list
+
+    context['mode'] = mode
+    context['how_translate'] = how_translate
+
+    return render(request, 'new_words/words_with_variants.html', context=context)
 
 
 # ======================================================================================================================
