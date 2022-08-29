@@ -15,9 +15,18 @@
     <div class="standart-container">
         <h1>Редактирование профиля</h1>
         <form action="." method="post" enctype="multipart/form-data">
-            {{ user_form.as_p }}
-            {{ profile_form.as_p }}
             {% csrf_token %}
+
+            <img src="/media/{{ profile_form.photo.value }}" alt="PHOTO" width="200px">
+
+            {% for f in user_form %}
+                <p>{{ f.label }} - {{ f }}</p>
+                <p>{{ f.errors }}</p>
+            {% endfor %}
+            {% for f in profile_form %}
+                <p>{{ f.label }} - {{ f }}</p>
+                <p>{{ f.error }}</p>
+            {% endfor %}
             <p><input class="save-changes-button" type="submit" value="Сохранить изменения"></p>
         </form>
     </div>
