@@ -30,7 +30,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                <a class="next-btn" href="{% url 'words:words_with_variants' mode='user_words' how_translate='en-ru' %}">Дальше</a>
+                <a class="next-btn" href="{% url 'words:words_with_variants' mode=mode how_translate=how_translate %}">Дальше</a>
 
 
                 <script>

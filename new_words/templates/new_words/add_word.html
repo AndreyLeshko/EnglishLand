@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load random_numbers %}
+{% load my_filters %}
+
+
+
+{% block title %}
+    Добавить новое слово
+{% endblock title %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{% static 'new_words/css/add_word.css' %}?n={% random_int %}">
+{% endblock css_links %}
+
+{% block page_content %}
+    <div class="standart-container">
+        {% if added_word %}
+            <h2>Слово {{ added_word }} успешно добавлено</h2>
+        {% endif %}
+        <form action="." method="post">
+            {% csrf_token %}
+            <p>
+                Слово на английском: <input type="text" name="english">
+            </p>
+            <p>
+                Переводы на русском (разделитель "; "): <input type="text" name="russian">
+            </p>
+            <div>
+               Категория:
+               {% for cat in categories %}
+                    <p>
+                        <input type="radio" name="category" id="{{ cat }}" value="{{ cat }}">
+                        <label for="{{ cat }}">{{ cat }}</label>
+                    </p>
+               {% endfor %}
+            </div>
+            <input type="submit" value="Добавить">
+        </form>
+    </div>
+{% endblock page_content %}

@@ -23,6 +23,7 @@
                 <a href="{% url 'account:personal_page' %}" class="nav-link">Мой аккаунт</a>
                 {% if request.user.username == 'admin' %}
                     <a href="/admin/" class="nav-link">Админка</a>
+                    <a href="{% url 'words:add_word' %}" class="nav-link">Новое слово</a>
                 {% endif %}
             {% else %}
                 <a href="{% url 'account:login' %}" class="nav-link">Войти</a>

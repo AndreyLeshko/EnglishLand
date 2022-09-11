@@ -26,11 +26,12 @@
             {% endif %}
         {% else %}
             <p class="words">{{ word|capfirst }}</p>
+            <p>{{ translates }}</p>
             <form action="{% url 'words:words_text_result' mode=mode how_translate=how_translate %}" method="post">
 
                 <p><input type="text" name="translate_attempt" class="translate_input" autofocus></p>
                 <input type="hidden" name="word" value="{{ word }}">
-                <input type="hidden" name="translate" value="{{ translate }}">
+<!--                <input type="hidden" name="translate" value="{{ translate }}">-->
                 <input type="hidden" name="train_id" value="{{ train_id }}">
                 {% csrf_token %}
                 <p><input type="submit" value="Проверить" class="check-btn"></p>

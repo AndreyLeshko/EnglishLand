@@ -2,19 +2,19 @@ from random import shuffle
 
 from django.shortcuts import render
 from rest_framework import generics
-from django.http.response import HttpResponse, HttpResponseRedirect, Http404, HttpResponseNotFound
+from django.http.response import HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import Word, Train
 from .serializers import WordSerializer
+from services import new_words_funcs
 
 
 # ======================================================================================================================
 # API
 
 class WordsAPIView(generics.ListAPIView):
-    queryset = Word.objects.all()
+    # queryset = WordEnglish.objects.all()
     serializer_class = WordSerializer
 
 
@@ -37,30 +37,34 @@ def words_text(request, mode, how_translate):
     context = {}
 
     if mode == 'all_words':
-        word_obj = Word.objects.order_by('?').first()
+        word_obj = new_words_funcs.get_random_word()
         if not word_obj:
             context['empty'] = 1
         else:
-            context['word'] = getattr(word_obj, source_lang)
-            context['translate'] = getattr(word_obj, translate_lang)
+            context['word'] = getattr(word_obj, f'{source_lang}_word_tb.{source_lang}')
+            context['translate'] = getattr(word_obj, f'{translate_lang}_word_tb.{translate_lang}')
             context['train_id'] = ''
+
     elif mode == 'user_words':
-        cur_train_obj = Train.objects.filter(user=request.user).filter(status='on study').select_related(
-            'word').order_by('last_try', '?').first()
+        cur_train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
         if not cur_train_obj:
             context['empty'] = 1
         else:
-            context['word'] = getattr(cur_train_obj.word, source_lang)
-            context['translate'] = getattr(cur_train_obj.word, translate_lang)
+            if how_translate == 'ru-en':
+                context['word'] = cur_train_obj.word.translates.first()
+            else:
+                context['word'] = cur_train_obj.word.english
             context['train_id'] = cur_train_obj.pk
+
     elif mode == 'repeat_words':
-        cur_train_obj = Train.objects.filter(user=request.user).filter(status='studied').select_related(
-            'word').order_by('last_try', '?').first()
+        cur_train_obj = new_words_funcs.get_train_word_object(request, is_studied=True)
         if not cur_train_obj:
             context['empty'] = 1
         else:
-            context['word'] = getattr(cur_train_obj.word, source_lang)
-            context['translate'] = getattr(cur_train_obj.word, translate_lang)
+            if how_translate == 'ru-en':
+                context['word'] = cur_train_obj.word.translates.first()
+            else:
+                context['word'] = cur_train_obj.word.english
             context['train_id'] = cur_train_obj.pk
 
     context['mode'] = mode
@@ -75,66 +79,41 @@ def words_text_result(request, mode, how_translate):
     Проверяет правильность введенного перевода, выбирает другие возможные переводы, меняет статус (изучено/на изучении)
     """
     word = request.POST['word']
-
-    if how_translate == 'ru-en':
-        source_lang = 'russian'
-        translate_lang = 'english'
-        translates = Word.objects.filter(russian=word).values(f'{translate_lang}')
-    else:
-        source_lang = 'english'
-        translate_lang = 'russian'
-        translates = Word.objects.filter(english=word).values(f'{translate_lang}')
-
-    translate_attempt = request.POST['translate_attempt'].strip().lower()
-    translate = request.POST['translate']
     train_id = request.POST['train_id']
+    translate_attempt = request.POST['translate_attempt'].strip().lower()
 
-    is_correct = False
-    other_translates_list = []
-    # список возможных переводов слова
-    for i in translates:
-        if i[translate_lang] == translate_attempt:
+    translates = new_words_funcs.get_possible_translations(word, how_translate)
+
+    is_correct = False  # правильно ли перевёл пользователь
+    other_translates_list = []  # список других переводов слова
+    context = {}
+
+    for translate in translates:
+        if translate == translate_attempt:
             is_correct = True
             if train_id:
-                cur_train = Train.objects.get(pk=train_id)
-                cur_train.correct_ans_cnt += 1
-                cur_train.save()
-        other_translates_list.append(i[translate_lang])
+                new_words_funcs.increase_counter_right_answers(train_id)
+        else:
+            other_translates_list.append(translate)
 
-    # убирает дублирование слов в разделе "другие переводы"
-    if translate_attempt in other_translates_list:
-        other_translates_list.remove(translate_attempt)
-    if translate in other_translates_list and not is_correct:
-        other_translates_list.remove(translate)
+    if not is_correct:
+        context['translate'] = other_translates_list.pop(0)
 
     if request.POST.get('need_train'):
-        # добавляет слово для тренировки
         if mode == 'all_words':
-            if source_lang == 'russian':
-                word_instance = Word.objects.filter(russian=word).first()
-            else:
-                word_instance = Word.objects.filter(english=word).first()
-            Train.objects.create(user=request.user, word=word_instance)
-        # отмечает слово как изученное
+            new_words_funcs.add_word_to_train(request.user, how_translate, word)
         elif mode == 'user_words':
-            cur_train = Train.objects.get(pk=train_id)
-            cur_train.status = 'studied'
-            cur_train.save()
-        # возвращает слово для тренировки
+            new_words_funcs.change_status_is_studied(train_id, new_status=True)
         elif mode == 'repeat_words':
-            cur_train = Train.objects.get(pk=train_id)
-            cur_train.status = 'on study'
-            cur_train.save()
+            new_words_funcs.change_status_is_studied(train_id, new_status=False)
 
-    context = {
-        'word': word,
-        'translate_attempt': translate_attempt,
-        'translate': translate,
-        'is_correct': is_correct,
-        'other_translates': other_translates_list,
-        'mode': mode,
-        'how_translate': how_translate,
-    }
+    context['word'] = word
+    context['is_correct'] = is_correct
+    context['other_translates'] = other_translates_list
+    context['translate_attempt'] = translate_attempt
+    context['mode'] = mode
+    context['how_translate'] = how_translate
+
     return render(request, 'new_words/words_text_result.html', context=context)
 
 
@@ -146,36 +125,28 @@ def words_text_result(request, mode, how_translate):
 @login_required
 def words_with_variants(request, mode, how_translate):
 
-    if how_translate == 'ru-en':
-        source_lang = 'russian'
-        translate_lang = 'english'
-    else:
-        source_lang = 'english'
-        translate_lang = 'russian'
-
     context = {}
 
     if mode != 'user_words':
         return HttpResponseNotFound(f'No such mode as {mode}')
 
-    cur_train_obj = Train.objects.filter(user=request.user).filter(status='on study').select_related(
-        'word').order_by('last_try', '?').first()
+    cur_train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
+
     if not cur_train_obj:
         context['empty'] = 1
     else:
-        context['word'] = getattr(cur_train_obj.word, source_lang)
-        context['translate'] = getattr(cur_train_obj.word, translate_lang)
-        cur_train_obj.save()   # обновлляет дату последней попытки модели Train
+        if how_translate == 'ru-en':
+            context['word'] = cur_train_obj.word.translates.order_by('?').first()
+            context['translate'] = cur_train_obj.word.english
+        else:
+            context['word'] = cur_train_obj.word.english
+            context['translate'] = cur_train_obj.word.translates.order_by('?').first()
 
-        variants_obj = Word.objects.filter(category=cur_train_obj.word.category)\
-                .exclude(english=cur_train_obj.word.english)\
-                .exclude(russian=cur_train_obj.word.russian)\
-                .order_by('?').values(translate_lang)[:3]
+        cur_train_obj.save()  # обновлляет дату последней попытки модели Train
 
-        variants_list = []
-        for var in variants_obj:
-            variants_list.append(var[translate_lang])
-        variants_list.append(getattr(cur_train_obj.word, translate_lang))
+        variants_list = new_words_funcs.get_translation_variants(cur_train_obj, how_translate)
+
+        variants_list.append(context['translate'])
         shuffle(variants_list)
         context['variants'] = variants_list
 
@@ -193,13 +164,11 @@ def add_words_to_train(request):
     """Показывает список неизученных слов, отмеченные слова добавляет для тренировки"""
 
     if request.method == 'POST':
-        for i in request.POST:
-            if 'on' in request.POST[i]:
-                word_instance = Word.objects.filter(english=i).first()
-                Train.objects.create(user=request.user, word=word_instance)
+        for param in request.POST:
+            if 'on' in request.POST[param]:
+                new_words_funcs.add_word_to_train(request.user, how_translate='en-ru', word=param)
 
-    user_words = Train.objects.filter(user=request.user).values('word__english')
-    new_words = Word.objects.exclude(english__in=user_words).order_by('english').values('english').distinct()
+    new_words = new_words_funcs.get_new_words_for_user(request.user)
     paginator = Paginator(new_words, 20)
     page = request.GET.get('page')
     try:
@@ -209,3 +178,19 @@ def add_words_to_train(request):
     except EmptyPage:
         words = paginator.page(paginator.num_pages)
     return render(request, 'new_words/add_words_to_train.html', context={'words': words, 'page': page})
+
+
+# ======================================================================================================================
+# добавление слов
+
+@login_required
+def add_word(request):
+    context = dict()
+    context['categories'] = new_words_funcs.get_category_list()
+    if request.method == 'POST':
+        en = request.POST['english'].strip()
+        ru = request.POST['russian'].strip()
+        category = request.POST['category']
+        new_words_funcs.add_new_word_to_db(en, ru, category)
+        context['added_word'] = request.POST['english'].strip()
+    return render(request, 'new_words/add_word.html', context=context)
