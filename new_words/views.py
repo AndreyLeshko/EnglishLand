@@ -96,6 +96,8 @@ def words_text_result(request, mode, how_translate):
         else:
             other_translates_list.append(translate)
 
+    new_words_funcs.update_train_last_try(train_id)  # обновляем дату последней попытки
+
     if not is_correct:
         context['translate'] = other_translates_list.pop(0)
 

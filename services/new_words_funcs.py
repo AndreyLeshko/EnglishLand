@@ -49,6 +49,12 @@ def increase_counter_right_answers(train_id: int) -> None:
     cur_train.save()
 
 
+def update_train_last_try(train_id: int) -> None:
+    """Обновляет дату последней попытки"""
+    cur_train = Train.objects.get(pk=train_id)
+    cur_train.save()
+
+
 def get_translation_variants(cur_train_obj: Train, how_translate: str) -> list:
     """Возвращает список из трех вариантов перевода"""
     if how_translate == 'ru-en':
