@@ -17,8 +17,6 @@
         <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
-            <img src="/media/{{ profile_form.photo.value }}" alt="PHOTO" width="200px">
-
             {% for f in user_form %}
                 <p>{{ f.label }} - {{ f }}</p>
                 <p>{{ f.errors }}</p>
