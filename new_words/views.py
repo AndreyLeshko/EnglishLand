@@ -91,12 +91,10 @@ def words_text_result(request, mode, how_translate):
     for translate in translates:
         if translate == translate_attempt:
             is_correct = True
-            if train_id:
-                new_words_funcs.increase_counter_right_answers(train_id)
         else:
             other_translates_list.append(translate)
 
-    new_words_funcs.update_train_last_try(train_id)  # обновляем дату последней попытки
+    new_words_funcs.increase_answer_counter(train_id, is_correct)
 
     if not is_correct:
         context['translate'] = other_translates_list.pop(0)
@@ -146,7 +144,7 @@ def words_with_variants(request, mode, how_translate):
 
         cur_train_obj.save()  # обновлляет дату последней попытки модели Train
 
-        variants_list = new_words_funcs.get_translation_variants(cur_train_obj, how_translate)
+        variants_list = new_words_funcs.get_wrong_translation_variants(cur_train_obj, how_translate)
 
         variants_list.append(context['translate'])
         shuffle(variants_list)
