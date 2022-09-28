@@ -49,3 +49,18 @@
         font-size: 90px;
     }
 }
+
+@media (max-width: 480px) {
+    .standart-container {
+        width: 90%;
+    }
+    .word {
+        font-size: 70px;
+    }
+    .variant {
+        width: 70%;
+        font-size: 40px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+}

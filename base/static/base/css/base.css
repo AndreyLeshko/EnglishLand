@@ -23,10 +23,12 @@ a {
 /* ============= HEADER ================ */
 .header {
     display: flex;
+    width: 100%;
     justify-content: space-between;
     /* background-color: rgba(40, 60, 106, 0.9); */
     background-color: #284178;
-    padding: 10px; 0px;
+    padding: 10px 0px;
+    box-sizing: content-box;
 }
 
 nav {
@@ -69,10 +71,11 @@ nav {
 .standart-container {
     display: block;
     background-color: white;
-    padding: 10px; 5px;
+    padding: 10px 5px;
     border-radius: 10px;
     margin: 20px 0px;
-    width: 500px;
+    width: auto;
+    max-width: 500px;
     align-self: center;
     text-align: center;
     font-size: 25px;
