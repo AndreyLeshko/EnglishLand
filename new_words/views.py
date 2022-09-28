@@ -2,12 +2,14 @@ from random import shuffle
 
 from django.shortcuts import render
 from rest_framework import generics
-from django.http.response import HttpResponseNotFound
+from django.http.response import HttpResponseNotFound, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 from .serializers import WordSerializer
 from services import new_words_funcs
+from services.words import trains
 
 
 # ======================================================================================================================
@@ -135,6 +137,7 @@ def words_with_variants(request, mode, how_translate):
     if not cur_train_obj:
         context['empty'] = 1
     else:
+        context['train_id'] = cur_train_obj.pk
         if how_translate == 'ru-en':
             context['word'] = cur_train_obj.word.translates.order_by('?').first()
             context['translate'] = cur_train_obj.word.english
@@ -194,3 +197,18 @@ def add_word(request):
         new_words_funcs.add_new_word_to_db(en, ru, category)
         context['added_word'] = request.POST['english'].strip()
     return render(request, 'new_words/add_word.html', context=context)
+
+
+# ======================================================================================================================
+# Управление тренировками
+
+def change_train_status(request, train_id):
+    cur_train = trains.CurrentTrain(train_id)
+    cur_train.confirm_train_ownership(request.user.username)
+    cur_train.inverse_train_status()
+    print('\n\n\n', cur_train.http_status)
+    return HttpResponse(status=cur_train.http_status)
+
+
+# ======================================================================================================================
+#

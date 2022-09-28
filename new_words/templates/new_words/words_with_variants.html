@@ -8,7 +8,11 @@
 {% endblock title %}
 
 {% block css_links %}
-     <link rel="stylesheet" href="{% static 'new_words/css/words_with_variants.css' %}?n={% random_int %}">
+    <link rel="stylesheet" href="{% static 'new_words/css/words_with_variants.css' %}?n={% random_int %}">
+    <link rel="stylesheet" href="{% static 'new_words/css/words_with_variants_adaptive.css' %}?n={% random_int %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 {% endblock css_links %}
 
 {% block page_content %}
@@ -21,6 +25,8 @@
 
             <div>
                 <input type="hidden" name="translate" id="translate" value="{{ translate }}">
+                <input type="hidden" name="train_id" id="train_id" value="{{ train_id }}">
+
                 <p class="word">{{ word|capfirst }}</p>
 
                 <div class="variants">
@@ -30,8 +36,20 @@
                         </div>
                     {% endfor %}
                 </div>
+
                 <a class="next-btn" href="{% url 'words:words_with_variants' mode=mode how_translate=how_translate %}">Дальше</a>
 
+                <div>
+                    <div class="mark-as-studied-btn">
+                        Отметить как изученное
+                    </div>
+
+                    <div class="return-to-study-btn hidden">
+                        Вернуть для изучения
+                    </div>
+                </div>
+
+                <script src="{% static 'new_words/js/change_train_status.js' %}"></script>
 
                 <script>
                     const var_list = document.querySelectorAll('.variant')
@@ -43,6 +61,7 @@
                         } else {
                             this.style.backgroundColor = 'rgba(255, 0, 0, 0.5)'
                         }
+                        console.log('aaa')
                     }
                     
                     var_list.forEach(

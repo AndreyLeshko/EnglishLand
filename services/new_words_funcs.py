@@ -1,4 +1,4 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db.models import F
 
 from random import choice
@@ -27,7 +27,7 @@ def get_train_word_object(request, is_studied: bool) -> Train:
     cur_train_obj = Train.objects \
         .filter(user=request.user).filter(is_studied=is_studied).filter(priority=random_priority) \
         .select_related('word').prefetch_related('word__translates').order_by('last_try', '?').first()
-    # если нет слова с нужным приоритетом:
+    # если в бд нет слова с нужным приоритетом:
     if not cur_train_obj:
         cur_train_obj = Train.objects.filter(user=request.user).filter(is_studied=is_studied) \
             .select_related('word').prefetch_related('word__translates').order_by('last_try', '?').first()
@@ -133,3 +133,19 @@ def increase_answer_counter(train_id: int, is_right) -> None:
     cur_train.save()
 
     update_priority(train_id)
+
+
+def inverse_train_status(train_id: int) -> None:
+    train_obj = Train.objects.get(pk=train_id)
+    train_obj.is_studied = not train_obj.is_studied
+    train_obj.save()
+
+
+def check_is_it_train_owner(username, train_id):
+    train_obj = Train.objects.get(pk=train_id)
+    if username == train_obj.user.username:
+        return True
+    return False
+
+
+
