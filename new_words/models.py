@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
@@ -33,8 +34,12 @@ class Vocabulary(models.Model):
 
 
 class Train(models.Model):
-    word = models.ForeignKey(WordEnglish, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    correct_ans_cnt = models.IntegerField(default=0)
-    is_studied = models.BooleanField(default=False)
-    last_try = models.DateField(auto_now=True)
+    word = models.ForeignKey(WordEnglish, verbose_name='Слово', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    correct_ans_cnt = models.IntegerField(verbose_name='Верных ответов', default=0)
+    incorrect_ans_cnt = models.IntegerField(verbose_name='Неверных ответов', default=0)
+    priority = models.IntegerField(verbose_name='Приоритет',
+                                   validators=(MinValueValidator(1), MaxValueValidator(5)),
+                                   default=5)
+    is_studied = models.BooleanField(verbose_name='Изучено', default=False)
+    last_try = models.DateField(verbose_name='Дата последней попытки', auto_now=True)

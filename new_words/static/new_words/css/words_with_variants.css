@@ -10,9 +10,9 @@
     width: 300px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-family: 'Tahoma';
+    font-family: 'Roboto', sans-serif;
     font-size: 30px;
-    font-weight: normal;
+    font-weight: 500;
     margin: 5px;
     padding: 5px;
 }
@@ -24,6 +24,8 @@
 
 .word {
     font-size: 34px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
 }
 
 .next-btn {
@@ -38,4 +40,47 @@
 .next-btn:hover {
     background-color: rgba(23, 68, 161, 1);
     text-decoration: underline;
+}
+
+.mark-as-studied-btn {
+    display: inline-block;
+    width: 300px;
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-top: 20px;
+    background-color: rgba(23, 68, 161, 0.9);
+    background-color: rgba(147, 149, 155, 0.7);
+    color: black;
+    border-color: rgba(23, 68, 161, 0.9);
+    border-radius: 10px;
+}
+
+.mark-as-studied-btn:hover {
+    text-decoration: underline;
+    background-color: rgba(147, 149, 155, 0.9);
+    cursor: pointer;
+}
+
+.return-to-study-btn {
+    display: inline-block;
+    width: 300px;
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-top: 20px;
+    background-color: rgba(23, 68, 161, 0.9);
+    background-color: rgba(147, 149, 155, 0.7);
+    color: black;
+    border-color: rgba(23, 68, 161, 0.9);
+    border-radius: 10px;
+}
+
+.return-to-study-btn:hover {
+    text-decoration: underline;
+    background-color: rgba(147, 149, 155, 0.9);
+    cursor: pointer;
+}
+
+
+.hidden {
+    display: none;
 }

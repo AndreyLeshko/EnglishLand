@@ -27,5 +27,5 @@ class VocabularyAdmin(admin.ModelAdmin):
 
 @admin.register(Train)
 class TrainAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'word', 'user', 'correct_ans_cnt', 'is_studied']
+    list_display = ['pk', 'word', 'user', 'correct_ans_cnt', 'incorrect_ans_cnt', 'priority', 'is_studied']
     search_fields = ['user']
