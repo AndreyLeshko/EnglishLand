@@ -5,13 +5,14 @@ p {
 .containers-flexbox {
     display:flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .train-words-container {
     width: 400px;
     display: inline;
     background-color: white;
-    padding: 10px; 5px;
+    padding: 10px 5px;
     margin: 20px 40px;
     border-radius: 10px;
     align-self: center;
