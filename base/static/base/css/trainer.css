@@ -1,59 +1,14 @@
-p {
-    margin: 0px;
-}
 
-.containers-flexbox {
-    display:flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.train-words-container {
-    width: 400px;
-    display: inline;
-    background-color: white;
-    padding: 10px 5px;
-    margin: 20px 40px;
-    border-radius: 10px;
-    align-self: center;
-    text-align: center;
-}
-
-.train-btn {
-    width: 300px;
-    display: inline-block;
-    padding: 5px 10px;
-    margin: 10px 10px;
-    border-radius: 10px;
-    border: 2px solid;
-    border-color: #CBCBCB;
-    font-size: 30px;
-    color: black;
-    font-family: Tahoma;
-}
-
-.train-btn:hover {
-    background-color: #D7D7D7;
-}
-
-.your-dict-header {
-    margin: 10px 0px;
-}
-
-.add-words-btn-container {
-    display: flex;
-    justify-content: center;
-}
+/* ============= ADD WORDS BUTTON ================ */
 
 .add-words-btn {
-    display: inline-flex;
-    width: 600px;
+    width: 50%;
+    margin: 2vh auto;
     background-color: rgba(40, 65, 120, 0.9);
-    font-size: 25px;
+    font-size: 90%;
     border-radius: 20px;
     color: white;
     padding: 8px 20px;
-    margin-top: 20px;
     justify-content: center;
     text-align: center;
 }
@@ -63,12 +18,52 @@ p {
     font-weight: lighter;
 }
 
-.add-words-btn-p {
-    display: flex;
-    justify-content: flex-end;
-}
-
 .add-words-btn:hover {
     text-decoration: underline;
     background-color: rgba(40, 65, 120, 1);
+}
+
+/* ============= CONTENT ================ */
+
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    /* flex-direction: column; */
+    justify-content: space-around;
+}
+
+.box-container {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-width: 300px;
+    padding: 1%;
+    margin: 1%;
+    border: 1px solid rgb(164, 164, 164);
+    border-radius: 10px;
+    font-size: 120%;
+    align-items: stretch;
+    text-align: center;
+}
+
+.vertical-flexbox {
+    display: flex;
+    flex-direction: column;
+}
+
+.train-btn {
+    width: 70%;
+    padding: 5px 10px;
+    margin: 10px auto;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: #CBCBCB;
+    font-size: 100%;
+    color: black;
+    font-family: Tahoma;
+    /* align-self: center; */
+    /* align-items: stretch; */
+}
+
+.train-btn:hover {
+    background-color: #D7D7D7;
 }

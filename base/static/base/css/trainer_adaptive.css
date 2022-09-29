@@ -6,54 +6,22 @@
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 992px) {
-    .word {
-        font-size: 8vw;
-        margin: 2vh;
+    h3 {
+        font-size: 5vw;
     }
-    .variant {
-        font-size: 7vw;
-    }
-    .mark-as-studied-btn, 
-    .return-to-study-btn {
+    .train-btn {
         font-size: 4vw;
-    }
-    .next-btn {
-        font-size: 6vw;
     }
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-    .word {
-        font-size: 9vw;
-    }
-    .variant {
-        font-size: 8vw;
-    }
-    .mark-as-studied-btn, 
-    .return-to-study-btn {
-        font-size: 5vw;
-    }
-    .next-btn {
-        font-size: 7vw;
-    }
+
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 480px) {
-    .word {
-        font-size: 10vw;
-    }
-    .variant {
-        font-size: 9vw;
-    }
-    .mark-as-studied-btn, 
-    .return-to-study-btn {
-        font-size: 6vw;
-    }
-    .next-btn {
-        font-size: 8vw;
-    }
+
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
