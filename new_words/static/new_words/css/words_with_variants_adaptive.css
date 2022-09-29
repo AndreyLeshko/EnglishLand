@@ -1,66 +1,62 @@
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 1200px) {
-    .standart-container {
-        width: 90%;
-    }
-    .word {
-        font-size: 80px;
-        color: rgb(0, 108, 74);
-    }
+
 }
 
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 992px) {
     .word {
-        font-size: 90px;
-        margin: 30px;
-    }
-    .standart-container {
-        width: 90%;
+        font-size: 8vw;
+        margin: 2vh;
     }
     .variant {
-        width: 70%;
-        font-size: 60px;
-        border-radius: 10px;
-        margin-bottom: 20px;
+        font-size: 7vw;
+    }
+    .mark-as-studied-btn, 
+    .return-to-study-btn {
+        font-size: 4vw;
     }
     .next-btn {
-        font-size: 50px;
-        border-radius: 30px;
-        padding: 10px 35px;
-        margin-top: 30px;
-        margin: 100px;
-    }
-    .mark-as-studied-btn {
-        margin-top: 50px;
-        font-size: 35px;
-        width: auto;
-    }
-    .return-to-study-btn {
-        margin-top: 50px;
-        font-size: 35px;
-        width: auto;
+        font-size: 6vw;
     }
 }
 
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-    .standart-container {
-        width: 90%;
-    }
     .word {
-        font-size: 90px;
-    }
-}
-
-@media (max-width: 480px) {
-    .standart-container {
-        width: 90%;
-    }
-    .word {
-        font-size: 70px;
+        font-size: 9vw;
     }
     .variant {
-        width: 70%;
-        font-size: 40px;
-        border-radius: 10px;
-        margin-bottom: 20px;
+        font-size: 8vw;
     }
+    .mark-as-studied-btn, 
+    .return-to-study-btn {
+        font-size: 5vw;
+    }
+    .next-btn {
+        font-size: 7vw;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .word {
+        font-size: 10vw;
+    }
+    .variant {
+        font-size: 9vw;
+    }
+    .mark-as-studied-btn, 
+    .return-to-study-btn {
+        font-size: 6vw;
+    }
+    .next-btn {
+        font-size: 8vw;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
+@media (max-width: 320px) {
+
 }

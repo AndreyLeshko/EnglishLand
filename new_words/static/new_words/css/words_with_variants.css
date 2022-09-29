@@ -7,11 +7,12 @@
 .variant {
     align-self: center;
     vertical-align: middle;
-    width: 300px;
+    width: 80%;
+    max-width: 400px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-family: 'Roboto', sans-serif;
-    font-size: 30px;
+    font-size: 130%;
     font-weight: 500;
     margin: 5px;
     padding: 5px;
@@ -23,13 +24,14 @@
 }
 
 .word {
-    font-size: 34px;
+    font-size: 150%;
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
+    color: rgb(17, 35, 34);
 }
 
 .next-btn {
-    font-size: 24px;
+    font-size: 150%;
     padding: 5px 10px;
     background-color: rgba(23, 68, 161, 0.9);
     color: white;
@@ -44,8 +46,9 @@
 
 .mark-as-studied-btn {
     display: inline-block;
-    width: 300px;
-    font-size: 18px;
+    width: 80%;
+    max-width: 300px;
+    font-size: 120%;
     padding: 5px 10px;
     margin-top: 20px;
     background-color: rgba(23, 68, 161, 0.9);
@@ -63,8 +66,9 @@
 
 .return-to-study-btn {
     display: inline-block;
-    width: 300px;
-    font-size: 18px;
+    width: 80%;
+    max-width: 300px;
+    font-size: 120%;
     padding: 5px 10px;
     margin-top: 20px;
     background-color: rgba(23, 68, 161, 0.9);
