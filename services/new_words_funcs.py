@@ -63,11 +63,12 @@ def get_wrong_translation_variants(cur_train_obj: Train, how_translate: str) -> 
     """Возвращает список из трех заведомо неверных вариантов перевода"""
     if how_translate == 'ru-en':
         variants_obj = Vocabulary.objects.filter(category=cur_train_obj.word.vocabulary.first().category) \
-                           .exclude(english=cur_train_obj.word).order_by('?').values(
-            word=F('english__english')).distinct()[:3]
+                                        .exclude(english=cur_train_obj.word) \
+                                        .order_by('?').values(word=F('english__english')).distinct()[:3]
     else:
         variants_obj = Vocabulary.objects.filter(category=cur_train_obj.word.vocabulary.first().category) \
-                           .exclude(english=cur_train_obj.word).order_by('?').values(word=F('russian__russian'))[:3]
+                                        .exclude(english=cur_train_obj.word) \
+                                        .order_by('?').values(word=F('russian__russian')).distinct()[:3]
     variants_list = [variant['word'] for variant in variants_obj]
     return variants_list
 
