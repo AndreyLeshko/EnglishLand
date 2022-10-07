@@ -1,12 +1,16 @@
 from random import shuffle
 
+from django.forms import model_to_dict
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.http.response import HttpResponseNotFound, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
+from .models import WordEnglish
 from .serializers import WordSerializer
 from services import new_words_funcs
 from services.words import trains
@@ -16,8 +20,18 @@ from services.words import trains
 # API
 
 class WordsAPIView(generics.ListAPIView):
-    # queryset = WordEnglish.objects.all()
+    queryset = WordEnglish.objects.all()
     serializer_class = WordSerializer
+
+
+class WordTrainAPIView(APIView):
+
+    def get(self, request):
+        print('11111')
+        train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
+        print(train_obj.word.__dict__)
+        print(model_to_dict(train_obj.word))
+        return Response({'train': model_to_dict(train_obj.word)})
 
 
 # ======================================================================================================================
@@ -115,6 +129,7 @@ def words_text_result(request, mode, how_translate):
     context['translate_attempt'] = translate_attempt
     context['mode'] = mode
     context['how_translate'] = how_translate
+    context['train_id'] = train_id
 
     return render(request, 'new_words/words_text_result.html', context=context)
 

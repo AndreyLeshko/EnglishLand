@@ -8,6 +8,7 @@ app_name = 'words'
 urlpatterns = [
     # API
     path('api/words/', views.WordsAPIView.as_view()),
+    path('api/words/word/train/', views.WordTrainAPIView.as_view()),
 
     # Trainer
     path('words-text/<mode>/<how_translate>/', views.words_text, name='words_text'),

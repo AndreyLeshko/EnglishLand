@@ -9,10 +9,11 @@
 
 {% block css_links %}
     <link rel="stylesheet" href="{% static 'new_words/css/words_text.css' %}?n={% random_int %}">
+    <link rel="stylesheet" href="{% static 'new_words/css/words_text_adaptive.css' %}?n={% random_int %}">
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="standart-container">
+    <div class="container">
 
         {% if empty == 1 %}
             {% if mode == 'user_words' %}
@@ -35,22 +36,6 @@
                 <input type="hidden" name="train_id" value="{{ train_id }}">
                 {% csrf_token %}
                 <p><input type="submit" value="Проверить" class="check-btn"></p>
-
-                <div>
-                    <div class="studied-div">
-                        {% if mode == 'user_words' %}
-    <!--                        <input type="hidden" name="studied" value="?">-->
-                            <input name="need_train" id="need_train" type="checkbox" value="off">
-                            <label for="need_train">Отметить слово как изученое</label>
-                        {% elif mode == 'repeat_words' %}
-                            <input name="need_train" id="need_train" type="checkbox" value="on">
-                            <label for="need_train">Забыл, вернуть для изучения</label>
-                        {% elif mode == 'all_words' %}
-                            <input name="need_train" id="need_train" type="checkbox" value="add">
-                            <label for="need_train">Добавить для изучения</label>
-                        {% endif %}
-                    </div>
-                </div>
             </form>
         {% endif %}
     </div>

@@ -14,8 +14,6 @@
 {% block page_content %}
 
     <div class="container">
-        <h1>Бесплатный тренажер<br>для изучения английского языка</h1>
-
         {% if request.user.is_authenticated %}
             <div class="box">
                 <div class="box-container">
@@ -30,12 +28,6 @@
             </div>
         {% else %}
             <div class="box">
-                <div class="box-container">
-                    <p>Сделай первые шаги в изучении английского</p>
-                    <p>Учитесь когда вам удобно и где удобно</p>
-                    <p>Сами контролируйте словарный запас</p>
-                    <p>Выбирайте слова из нужных категорий</p>
-                </div>
                 <div class="box-container">
                     <h2>Присоединяйтесь!</h2>
                     <a href="{% url 'account:login' %}">Войти</a>

@@ -34,7 +34,7 @@ class Vocabulary(models.Model):
 
 
 class Train(models.Model):
-    word = models.ForeignKey(WordEnglish, verbose_name='Слово', on_delete=models.CASCADE)
+    word = models.ForeignKey(WordEnglish, verbose_name='Слово', related_name='word', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     correct_ans_cnt = models.IntegerField(verbose_name='Верных ответов', default=0)
     incorrect_ans_cnt = models.IntegerField(verbose_name='Неверных ответов', default=0)

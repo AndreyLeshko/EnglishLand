@@ -1,17 +1,21 @@
 .words {
-    margin: 0px;
+    margin: 2vh;
     padding: 10px;
-    font-size: 25px;
+    font-size: 200%;
 }
 
 .translate_input {
-    font-size: 25px;
+    font-size: 150%;
     text-align: center;
-    padding: 5px; 10px;
+    padding: 5px;
+    margin: 2vh 0vh;
+    max-width: 90%;
+    overflow-x: auto;
 }
 
 .check-btn {
-    font-size: 18px;
+    font-size: 150%;
+    margin: 2vh 0vh;
     padding: 5px 10px;
     background-color: rgba(23, 68, 161, 0.9);
     color: white;
@@ -41,3 +45,5 @@
     color: rgba(10, 17, 150, 1);
     text-decoration: underline;
 }
+
+

@@ -13,11 +13,7 @@
     .variant {
         font-size: 7vw;
     }
-    .mark-as-studied-btn, 
-    .return-to-study-btn {
-        font-size: 4vw;
-    }
-    .next-btn {
+    .check-btn {
         font-size: 6vw;
     }
 }
@@ -30,11 +26,7 @@
     .variant {
         font-size: 8vw;
     }
-    .mark-as-studied-btn, 
-    .return-to-study-btn {
-        font-size: 5vw;
-    }
-    .next-btn {
+    .check-btn {
         font-size: 7vw;
     }
 }
@@ -47,11 +39,7 @@
     .variant {
         font-size: 9vw;
     }
-    .mark-as-studied-btn, 
-    .return-to-study-btn {
-        font-size: 6vw;
-    }
-    .next-btn {
+    .check-btn {
         font-size: 8vw;
     }
 }
