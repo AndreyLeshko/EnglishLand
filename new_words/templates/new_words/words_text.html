@@ -13,7 +13,7 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="container">
+    <!-- <div class="container">
 
         {% if empty == 1 %}
             {% if mode == 'user_words' %}
@@ -27,16 +27,44 @@
             {% endif %}
         {% else %}
             <p class="words">{{ word|capfirst }}</p>
-            <p>{{ translates }}</p>
             <form action="{% url 'words:words_text_result' mode=mode how_translate=how_translate %}" method="post">
 
-                <p><input type="text" name="translate_attempt" class="translate_input" autofocus></p>
+                <p><input type="text" name="translate_attempt" class="translate_input"></p>
                 <input type="hidden" name="word" value="{{ word }}">
-<!--                <input type="hidden" name="translate" value="{{ translate }}">-->
                 <input type="hidden" name="train_id" value="{{ train_id }}">
                 {% csrf_token %}
-                <p><input type="submit" value="Проверить" class="check-btn"></p>
+                <p><input type="submit" value="Проверить" class="check-btn1"></p>
             </form>
         {% endif %}
+    </div> -->
+
+    <div class="container load">
+        <img src="{% static 'base/img/load_sign.gif' %}" alt="..." width="40px">
     </div>
+
+    <div class="container question hidden">
+        <p class="word">...</p>
+        <p><input type="text" class="translate-input" autofocus></p>
+        <div>
+            <span class="check-btn">
+                Проверить
+            </span>
+        </div>
+    </div>
+
+    <div class="container result hidden">
+        <p class="verdict"></p>
+        <p class="question-word"></p>
+        <p class="translate-attempt"></p>
+        <p class="right-ans"></p>
+        <p class="other-translates"></p>
+         <div>
+            <span class="next-btn">
+                Дальше
+            </span>
+        </div>
+    </div>
+
+
+    <script src="{% static 'new_words/js/words_text.js' %}"></script>
 {% endblock page_content %}

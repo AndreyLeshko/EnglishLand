@@ -13,7 +13,7 @@ class WordEnglish(models.Model):
 
 class WordRussian(models.Model):
     russian = models.CharField(max_length=100, unique=True)
-
+    translates = models.ManyToManyField('WordEnglish', through='Vocabulary')
     def __str__(self):
         return f'{self.russian}'
 

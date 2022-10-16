@@ -3,6 +3,7 @@ from random import shuffle
 from django.forms import model_to_dict
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http.response import HttpResponseNotFound, HttpResponse
@@ -11,9 +12,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 from .models import WordEnglish
-from .serializers import WordSerializer
+from .serializers import WordSerializer, WordTrainSerializer, TrainObjectSerializer
 from services import new_words_funcs
-from services.words import trains
+from services.words import trains, vocabulary
 
 
 # ======================================================================================================================
@@ -24,14 +25,20 @@ class WordsAPIView(generics.ListAPIView):
     serializer_class = WordSerializer
 
 
-class WordTrainAPIView(APIView):
+class TrainObjectAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        print('11111')
-        train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
-        print(train_obj.word.__dict__)
-        print(model_to_dict(train_obj.word))
-        return Response({'train': model_to_dict(train_obj.word)})
+        if request.GET['mode'] == 'study':
+            train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
+        elif request.GET['mode'] == 'repeat':
+            train_obj = new_words_funcs.get_train_word_object(request, is_studied=True)
+        serializer = TrainObjectSerializer(train_obj)
+        context = serializer.data
+        context['word'] = new_words_funcs.translates_dict(train_obj)
+        return Response({'train': context})
+
+
 
 
 # ======================================================================================================================
@@ -218,10 +225,33 @@ def add_word(request):
 # Управление тренировками
 
 def change_train_status(request, train_id):
+    """
+        Инвертирует статус тренировки
+        Коды ответов:
+            201 - успешно
+            403 - блокировка доступа
+            404 - неверные данные
+    """
     cur_train = trains.CurrentTrain(train_id)
     cur_train.confirm_train_ownership(request.user.username)
     cur_train.inverse_train_status()
     print('\n\n\n', cur_train.http_status)
+    return HttpResponse(status=cur_train.http_status)
+
+
+def increase_attempt_counter(request, train_id, is_right):
+    """
+        Увеличивает счетчик ответов (правильных или неправильных)
+        для правильных ответов is_right передаётся как 'true', для неправильных 'false'
+        Коды ответов:
+            201 - успешно
+            403 - блокировка доступа
+            404 - неверные данные
+    """
+    is_right = True if is_right == 'true' else False
+    cur_train = trains.CurrentTrain(train_id)
+    cur_train.confirm_train_ownership(request.user.username)
+    cur_train.increase_answer_counter(is_right)
     return HttpResponse(status=cur_train.http_status)
 
 

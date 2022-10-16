@@ -1,10 +1,10 @@
-.words {
+.word {
     margin: 2vh;
     padding: 10px;
     font-size: 200%;
 }
 
-.translate_input {
+.translate-input {
     font-size: 150%;
     text-align: center;
     padding: 5px;
@@ -13,9 +13,10 @@
     overflow-x: auto;
 }
 
-.check-btn {
+.check-btn,
+.next-btn {
     font-size: 150%;
-    margin: 2vh 0vh;
+    margin: 3vh 0vh;
     padding: 5px 10px;
     background-color: rgba(23, 68, 161, 0.9);
     color: white;
@@ -23,7 +24,9 @@
     border-radius: 10px;
 }
 
-.check-btn:hover {
+.check-btn:hover,
+.next-btn:hover {
+    cursor: pointer;
     background-color: rgba(23, 68, 161, 1);
     text-decoration: underline;
 }
@@ -46,4 +49,56 @@
     text-decoration: underline;
 }
 
+.hidden {
+    display: none;
+    transition-duration: 2s;
+}
 
+.load-container {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* ------------------------------------------------------ */
+/* Results */
+
+.verdict {
+    font-size: 200%;
+    font-weight: bold;
+    border-bottom: 1px solid #64656D;
+    margin: 0px;
+    padding: 10px;
+}
+
+.right {
+    color: green;
+
+}
+
+.wrong {
+    color: red;
+}
+
+.question-word {
+    margin: 2vh;
+    padding: 10px;
+    font-size: 200%;
+}
+
+.translate-attempt {
+    font-size: 170%;
+    margin: 2vh 0vh;
+}
+
+.right-ans {
+    font-size: 200%;
+    text-decoration: underline;
+    margin: 2vh 0vh;
+}
+
+.other-translates {
+    font-size: 140%;
+    font-style: italic;
+    margin: 2vh 0vh;
+}

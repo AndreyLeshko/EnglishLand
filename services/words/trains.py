@@ -41,6 +41,7 @@ class CurrentTrain:
                 self.train.incorrect_ans_cnt += 1
             self.train.save()
             self._update_priority()
+            self.http_status = 201
 
     def _update_priority(self):
         """Пересчитывает значение приоритета"""

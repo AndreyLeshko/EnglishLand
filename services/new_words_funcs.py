@@ -149,4 +149,14 @@ def check_is_it_train_owner(username, train_id):
     return False
 
 
+def translates_dict(train_obj):
+    ru_translates_obj = train_obj.word.translates.all()
+    context = {
+        'english': train_obj.word.english,
+        'russian': {}
+    }
+    for ru_translate_obj in ru_translates_obj:
+        en_translates = [translate['english'] for translate in ru_translate_obj.translates.all().values('english')]
+        context['russian'][ru_translate_obj.russian] = en_translates
+    return context
 
