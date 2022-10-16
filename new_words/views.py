@@ -43,102 +43,12 @@ class TrainObjectAPIView(APIView):
 
 # ======================================================================================================================
 # перевод текстом en->ru / ru->en
-# mode = ['all_words', 'user_words', 'repeat_words']
+# mode = ['user_words', 'repeat_words']
 # how_translate = ['en-ru', 'ru-en']
 
 @login_required
-def words_text(request, mode, how_translate):
-    """Выбирает слово из нужной категории (все слова / на изучении / изученные), на заданном языке"""
-
-    if how_translate == 'ru-en':
-        source_lang = 'russian'
-        translate_lang = 'english'
-    else:
-        source_lang = 'english'
-        translate_lang = 'russian'
-
-    context = {}
-
-    if mode == 'all_words':
-        word_obj = new_words_funcs.get_random_word()
-        if not word_obj:
-            context['empty'] = 1
-        else:
-            context['word'] = getattr(word_obj, f'{source_lang}_word_tb.{source_lang}')
-            context['translate'] = getattr(word_obj, f'{translate_lang}_word_tb.{translate_lang}')
-            context['train_id'] = ''
-
-    elif mode == 'user_words':
-        cur_train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
-        if not cur_train_obj:
-            context['empty'] = 1
-        else:
-            if how_translate == 'ru-en':
-                context['word'] = cur_train_obj.word.translates.first()
-            else:
-                context['word'] = cur_train_obj.word.english
-            context['train_id'] = cur_train_obj.pk
-
-    elif mode == 'repeat_words':
-        cur_train_obj = new_words_funcs.get_train_word_object(request, is_studied=True)
-        if not cur_train_obj:
-            context['empty'] = 1
-        else:
-            if how_translate == 'ru-en':
-                context['word'] = cur_train_obj.word.translates.first()
-            else:
-                context['word'] = cur_train_obj.word.english
-            context['train_id'] = cur_train_obj.pk
-
-    context['mode'] = mode
-    context['how_translate'] = how_translate
-
-    return render(request, 'new_words/words_text.html', context=context)
-
-
-@login_required
-def words_text_result(request, mode, how_translate):
-    """
-    Проверяет правильность введенного перевода, выбирает другие возможные переводы, меняет статус (изучено/на изучении)
-    """
-    word = request.POST['word']
-    train_id = request.POST['train_id']
-    translate_attempt = request.POST['translate_attempt'].strip().lower()
-
-    translates = new_words_funcs.get_possible_translations(word, how_translate)
-
-    is_correct = False  # правильно ли перевёл пользователь
-    other_translates_list = []  # список других переводов слова
-    context = {}
-
-    for translate in translates:
-        if translate == translate_attempt:
-            is_correct = True
-        else:
-            other_translates_list.append(translate)
-
-    new_words_funcs.increase_answer_counter(train_id, is_correct)
-
-    if not is_correct:
-        context['translate'] = other_translates_list.pop(0)
-
-    if request.POST.get('need_train'):
-        if mode == 'all_words':
-            new_words_funcs.add_word_to_train(request.user, how_translate, word)
-        elif mode == 'user_words':
-            new_words_funcs.change_status_is_studied(train_id, new_status=True)
-        elif mode == 'repeat_words':
-            new_words_funcs.change_status_is_studied(train_id, new_status=False)
-
-    context['word'] = word
-    context['is_correct'] = is_correct
-    context['other_translates'] = other_translates_list
-    context['translate_attempt'] = translate_attempt
-    context['mode'] = mode
-    context['how_translate'] = how_translate
-    context['train_id'] = train_id
-
-    return render(request, 'new_words/words_text_result.html', context=context)
+def words_text(request):
+    return render(request, 'new_words/words_text.html')
 
 
 # ======================================================================================================================

@@ -22,8 +22,8 @@
                     <p>Слов на изучении - {{ on_study }}</p>
                 </div>
                 <div class="box-container">
-                    <p><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}" class="train-btn">Изучить слова</a></p>
-                    <p><a href="{% url 'words:words_text' mode='repeat_words' how_translate='en-ru' %}" class="train-btn">Повторить слова</a></p>
+                    <p><a href="{% url 'words:words_text' %}?&mode=study&lang=en-ru" class="train-btn">Изучить слова</a></p>
+                    <p><a href="{% url 'words:words_text' %}?&mode=repeat&lang=en-ru" class="train-btn">Повторить слова</a></p>
                 </div>
             </div>
         {% else %}

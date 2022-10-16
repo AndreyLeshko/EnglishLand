@@ -47,6 +47,7 @@ function updateQuestionVariables() {
     } else if (lang == 'ru-en') {
         const keys = Object.keys(questionData['train']['word']['russian'])
         questionWord = keys[Math.floor(Math.random()*keys.length)]
+        translates = []
         translates = questionData['train']['word']['russian'][questionWord]
     }
 }
@@ -72,15 +73,19 @@ function updateResultContainerContent() {
         let otherTranslates = translates.filter(translate => translate != translateInput)
         if (otherTranslates.length > 0) {
             document.querySelector('.other-translates').textContent = 'Другие переводы: ' + otherTranslates.join('; ') 
+        } else {
+            document.querySelector('.other-translates').textContent = ''
         }
     } else {
         const rightTranslate = translates.shift()
         document.querySelector('.verdict').textContent = 'Неверно'
         document.querySelector('.verdict').classList.remove('right')
         document.querySelector('.verdict').classList.add('wrong')
-        document.querySelector('.right-ans').textContent = 'Правильный ответ - ' + translates.pop()
+        document.querySelector('.right-ans').textContent = 'Правильный ответ - ' + rightTranslate
         if (translates.length > 0) {
             document.querySelector('.other-translates').textContent = 'Другие переводы: ' + translates.join('; ') 
+        } else {
+            document.querySelector('.other-translates').textContent = ''
         }
     }
 }
@@ -105,9 +110,9 @@ function checkAnswer() {
 
 function sendIncreaseAnswerCounterRequest () {
     let path = `/words/trains/increase-attempt-counter/${trainId}/${isRightAnswer}/`
-    request = new XMLHttpRequest()
-    request.open("GET", path, true)
-    request.send()
+    let increaseAnswerCounterRequest = new XMLHttpRequest()
+    increaseAnswerCounterRequest.open("GET", path, true)
+    increaseAnswerCounterRequest.send()
 }
 
 

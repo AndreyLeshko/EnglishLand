@@ -51,7 +51,6 @@
 
 .hidden {
     display: none;
-    transition-duration: 2s;
 }
 
 .load-container {
