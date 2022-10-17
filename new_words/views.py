@@ -1,6 +1,6 @@
 from random import shuffle
 
-from django.forms import model_to_dict
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
@@ -145,7 +145,6 @@ def change_train_status(request, train_id):
     cur_train = trains.CurrentTrain(train_id)
     cur_train.confirm_train_ownership(request.user.username)
     cur_train.inverse_train_status()
-    print('\n\n\n', cur_train.http_status)
     return HttpResponse(status=cur_train.http_status)
 
 
@@ -164,6 +163,14 @@ def increase_attempt_counter(request, train_id, is_right):
     cur_train.increase_answer_counter(is_right)
     return HttpResponse(status=cur_train.http_status)
 
+
+def get_possible_variants(request, number_variants):
+    en = request.GET['en']
+    ru = request.GET['ru']
+    source = trains.VocabularyObject(en, ru)
+    return JsonResponse({
+        'variants': source.get_possibility_translate_variants(number_variants)
+    })
 
 # ======================================================================================================================
 #

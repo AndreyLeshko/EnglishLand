@@ -9,7 +9,7 @@ urlpatterns = [
     # API
     path('api/words/', views.WordsAPIView.as_view()),
     path('api/train-object/', views.TrainObjectAPIView.as_view()),
-    # path('api/train-object/'),
+    path('api/get-variants/<int:number_variants>/', views.get_possible_variants),
 
     # Trainer
     path('words-text/', views.words_text, name='words_text'),

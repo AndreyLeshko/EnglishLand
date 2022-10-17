@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import F
 
-from new_words.models import Train
+from new_words.models import Train, Vocabulary
 
 
 class CurrentTrain:
@@ -59,3 +60,38 @@ class CurrentTrain:
             new_priority = 1
         self.train.priority = new_priority
         self.train.save()
+
+
+# ======================================================================================================================
+class VocabularyObject:
+
+    def __init__(self, en, ru):
+        self.ru = ru
+        self.en = en
+        self.vocab_obj = self.find_vocabulary_object()
+
+    def find_vocabulary_object(self):
+        try:
+            object = Vocabulary.objects.get(english__english=self.en, russian__russian=self.ru)
+        except ObjectDoesNotExist:
+            object = None
+            print('NO', self.en)
+        return object
+
+    def get_possibility_translate_variants(self, number_of_variants):
+        if self.vocab_obj:
+            category = self.vocab_obj.category
+            variants = {}
+            # есть небольшая вероятность дублирования слов, так как distinct ищет уникальные пары en-ru
+            variants_objects = Vocabulary.objects.filter(category=category) \
+                                    .exclude(russian=self.vocab_obj.russian) \
+                                    .exclude(english=self.vocab_obj.english) \
+                                    .order_by('?') \
+                                    .values(ru=F('russian__russian'), en=F('english__english')) \
+                                    .distinct()[:number_of_variants]
+
+            variants['ru'] = [variant['ru'] for variant in variants_objects]
+            variants['en'] = [variant['en'] for variant in variants_objects]
+            return variants
+        else:
+            return None
