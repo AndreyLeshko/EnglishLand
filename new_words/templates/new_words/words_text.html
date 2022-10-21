@@ -9,49 +9,55 @@
 
 {% block css_links %}
     <link rel="stylesheet" href="{% static 'new_words/css/words_text.css' %}?n={% random_int %}">
+    <link rel="stylesheet" href="{% static 'new_words/css/words_text_adaptive.css' %}?n={% random_int %}">
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="standart-container">
 
-        {% if empty == 1 %}
-            {% if mode == 'user_words' %}
-                <p>У вас нет слов на изучении</p>
-                <p class="blue-link"><a href="{% url 'words:add_words_to_train' %}">Добавить слова на изучение?</a></p>
-            {% elif mode == 'repeat_words' %}
-                <p>У вас пока нет изученных слов, продолжайте тренироваться!</p>
-                <p class="blue-link"><a href="{% url 'words:words_text' mode='user_words' how_translate='en-ru' %}">Тренировать слова</a></p>
-            {% elif mode == 'all_words' %}
-                <p>На данный момент нет новых слов для изучения, но мы скоро это исправим)</p>
-            {% endif %}
-        {% else %}
-            <p class="words">{{ word|capfirst }}</p>
-            <p>{{ translates }}</p>
-            <form action="{% url 'words:words_text_result' mode=mode how_translate=how_translate %}" method="post">
-
-                <p><input type="text" name="translate_attempt" class="translate_input" autofocus></p>
-                <input type="hidden" name="word" value="{{ word }}">
-<!--                <input type="hidden" name="translate" value="{{ translate }}">-->
-                <input type="hidden" name="train_id" value="{{ train_id }}">
-                {% csrf_token %}
-                <p><input type="submit" value="Проверить" class="check-btn"></p>
-
-                <div>
-                    <div class="studied-div">
-                        {% if mode == 'user_words' %}
-    <!--                        <input type="hidden" name="studied" value="?">-->
-                            <input name="need_train" id="need_train" type="checkbox" value="off">
-                            <label for="need_train">Отметить слово как изученое</label>
-                        {% elif mode == 'repeat_words' %}
-                            <input name="need_train" id="need_train" type="checkbox" value="on">
-                            <label for="need_train">Забыл, вернуть для изучения</label>
-                        {% elif mode == 'all_words' %}
-                            <input name="need_train" id="need_train" type="checkbox" value="add">
-                            <label for="need_train">Добавить для изучения</label>
-                        {% endif %}
-                    </div>
-                </div>
-            </form>
-        {% endif %}
+    <div class="container load">
+        <img src="{% static 'base/img/load_sign.gif' %}" alt="..." width="40px">
     </div>
+
+    <div class="container question hidden">
+        <p class="word">...</p>
+        <p><input type="text" class="translate-input" autofocus></p>
+        <div>
+            <span class="check-btn">
+                Проверить
+            </span>
+        </div>
+        <div>
+            <div class="mark-as-studied-btn hidden">
+                Отметить как изученное
+            </div>
+
+            <div class="return-to-study-btn hidden">
+                Вернуть для изучения
+            </div>
+        </div>
+    </div>
+
+    <div class="container result hidden">
+        <p class="verdict"></p>
+        <p class="question-word"></p>
+        <p class="translate-attempt"></p>
+        <p class="right-ans"></p>
+        <p class="other-translates"></p>
+         <div>
+            <span class="next-btn">
+                Дальше
+            </span>
+        </div>
+        <div>
+            <div class="mark-as-studied-btn hidden">
+                Отметить как изученное
+            </div>
+
+            <div class="return-to-study-btn hidden">
+                Вернуть для изучения
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'new_words/js/words_text.js' %}"></script>
 {% endblock page_content %}

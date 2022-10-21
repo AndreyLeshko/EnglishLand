@@ -6,12 +6,33 @@
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 992px) {
-    .word {
-        font-size: 8vw;
+    .words {
+        font-size: 7vw;
         margin: 2vh;
     }
     .variant {
         font-size: 7vw;
+    }
+    .mark-as-studied-btn, 
+    .return-to-study-btn {
+        font-size: 4vw;
+    }
+    .check-btn {
+        font-size: 5vw;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .words {
+        font-size: 9vw;
+    }
+    .variant {
+        font-size: 8vw;
+    }
+    .mark-as-studied-btn, 
+    .return-to-study-btn {
+        font-size: 5vw;
     }
     .check-btn {
         font-size: 6vw;
@@ -19,25 +40,16 @@
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
-@media (max-width: 768px) {
-    .word {
-        font-size: 9vw;
-    }
-    .variant {
-        font-size: 8vw;
-    }
-    .check-btn {
-        font-size: 7vw;
-    }
-}
-
-/* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 480px) {
-    .word {
+    .words {
         font-size: 10vw;
     }
     .variant {
         font-size: 9vw;
+    }
+    .mark-as-studied-btn, 
+    .return-to-study-btn {
+        font-size: 6vw;
     }
     .check-btn {
         font-size: 8vw;

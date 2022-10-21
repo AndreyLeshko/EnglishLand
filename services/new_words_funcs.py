@@ -63,11 +63,12 @@ def get_wrong_translation_variants(cur_train_obj: Train, how_translate: str) -> 
     """Возвращает список из трех заведомо неверных вариантов перевода"""
     if how_translate == 'ru-en':
         variants_obj = Vocabulary.objects.filter(category=cur_train_obj.word.vocabulary.first().category) \
-                           .exclude(english=cur_train_obj.word).order_by('?').values(
-            word=F('english__english')).distinct()[:3]
+                                        .exclude(english=cur_train_obj.word) \
+                                        .order_by('?').values(word=F('english__english')).distinct()[:3]
     else:
         variants_obj = Vocabulary.objects.filter(category=cur_train_obj.word.vocabulary.first().category) \
-                           .exclude(english=cur_train_obj.word).order_by('?').values(word=F('russian__russian'))[:3]
+                                        .exclude(english=cur_train_obj.word) \
+                                        .order_by('?').values(word=F('russian__russian')).distinct()[:3]
     variants_list = [variant['word'] for variant in variants_obj]
     return variants_list
 
@@ -148,4 +149,14 @@ def check_is_it_train_owner(username, train_id):
     return False
 
 
+def translates_dict(train_obj):
+    ru_translates_obj = train_obj.word.translates.all()
+    context = {
+        'english': train_obj.word.english,
+        'russian': {}
+    }
+    for ru_translate_obj in ru_translates_obj:
+        en_translates = [translate['english'] for translate in ru_translate_obj.translates.all().values('english')]
+        context['russian'][ru_translate_obj.russian] = en_translates
+    return context
 

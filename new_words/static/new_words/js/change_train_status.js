@@ -9,8 +9,6 @@ const returnToStudyBtn = document.querySelector('.return-to-study-btn')
 function change_train_status_request() {
     ajax.open('GET', href, true)
     ajax.send()
-    console.log('send')
-    console.log(document.cookie.match('csrftoken'))
     ajax.addEventListener('readystatechange', function () {
         if (this.readyState == 4 && this.status == 201) {
             console.log('Success', this.readyState)
