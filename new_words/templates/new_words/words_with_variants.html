@@ -16,63 +16,28 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="container">
+    <div class="container load">
+        <img src="{% static 'base/img/load_sign.gif' %}" alt="..." width="40px">
+    </div>
 
-        {% if empty == 1 %}
-            <p>У вас нет слов на изучении</p>
-            <p class="blue-link"><a href="{% url 'words:add_words_to_train' %}">Добавить слова на изучение?</a></p>
-        {% else %}
+    <div class="container question hidden">
+        <div class="word"></div>
+        <div class="variants"></div>
+        <span class="next-btn">
+            Дальше
+        </span>
 
-            <div>
-                <input type="hidden" name="translate" id="translate" value="{{ translate }}">
-                <input type="hidden" name="train_id" id="train_id" value="{{ train_id }}">
-
-                <p class="word">{{ word|capfirst }}</p>
-
-                <div class="variants">
-                    {% for var in variants %}
-                        <div class="variant">
-                            {{ var }}
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <a class="next-btn" href="{% url 'words:words_with_variants' mode=mode how_translate=how_translate %}">Дальше</a>
-
-                <div>
-                    <div class="mark-as-studied-btn">
-                        Отметить как изученное
-                    </div>
-
-                    <div class="return-to-study-btn hidden">
-                        Вернуть для изучения
-                    </div>
-                </div>
-
-                <script src="{% static 'new_words/js/change_train_status.js' %}"></script>
-
-                <script>
-                    const var_list = document.querySelectorAll('.variant')
-                    const true_answer = document.querySelector('#translate').value
-
-                    function show_answer() {
-                        if (this.textContent.trim() === true_answer) {
-                            this.style.backgroundColor = 'rgba(0, 255, 0, 0.6)'
-                        } else {
-                            this.style.backgroundColor = 'rgba(255, 0, 0, 0.5)'
-                        }
-                        console.log('aaa')
-                    }
-                    
-                    var_list.forEach(
-                        function (el) {
-                            el.addEventListener('click', show_answer)
-                        }
-                    )
-
-                </script>
+        <div>
+            <div class="mark-as-studied-btn hidden">
+                Отметить как изученное
             </div>
 
-        {% endif %}
+            <div class="return-to-study-btn hidden">
+                Вернуть для изучения
+            </div>
+        </div>
+        
     </div>
+
+    <script src="{% static 'new_words/js/words_with_variants.js' %}"></script>
 {% endblock page_content %}

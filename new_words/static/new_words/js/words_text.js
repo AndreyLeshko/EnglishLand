@@ -1,7 +1,9 @@
 let HtmlObjWord = document.querySelector(".word")
 let HtmlObjTranslateInput = document.querySelector(".translate-input")
-let HtmlObjCheckButton = document.querySelector('.check-btn')
-let HtmlObjNextButton = document.querySelector('.next-btn')
+const HtmlObjCheckButton = document.querySelector('.check-btn')
+const HtmlObjNextButton = document.querySelector('.next-btn')
+const HtmlObjMarkAsStudiedBtn = document.querySelector('.mark-as-studied-btn')
+const HtmlObjReturnToStudyBtn = document.querySelector('.return-to-study-btn')
 let HtmlObjLoadContainer = document.querySelector('.container.load')
 let HtmlObjQuestionContainer = document.querySelector('.container.question')
 let HtmlObjResultContainer = document.querySelector('.container.result')
@@ -18,6 +20,20 @@ let translateInput = null
 let translates = []
 let request = new XMLHttpRequest()
 
+
+main()
+function main() {
+    loadQuestion()
+
+    HtmlObjCheckButton.addEventListener('click', checkAnswer)
+    HtmlObjNextButton.addEventListener('click', function() {
+        loadQuestion()
+        HtmlObjQuestionContainer.classList.toggle('hidden')
+        HtmlObjResultContainer.classList.toggle('hidden')
+    })
+    HtmlObjMarkAsStudiedBtn.addEventListener('click', change_train_status_request)
+    HtmlObjReturnToStudyBtn.addEventListener('click', change_train_status_request)
+}
 
 function loadQuestion() {
     request = new XMLHttpRequest()
@@ -59,6 +75,14 @@ function updateQuestionContainerContent() {
     HtmlObjLoadContainer.classList.add('hidden')
     HtmlObjQuestionContainer.classList.remove('hidden')
     HtmlObjResultContainer.classList.add('hidden')
+    
+    if (mode == 'study') {
+        HtmlObjMarkAsStudiedBtn.classList.remove('hidden')
+        HtmlObjReturnToStudyBtn.classList.add('hidden')
+    } else if (mode == 'repeat') {
+        HtmlObjMarkAsStudiedBtn.classList.add('hidden')
+        HtmlObjReturnToStudyBtn.classList.remove('hidden')
+    }
 }
 
 
@@ -117,12 +141,18 @@ function sendIncreaseAnswerCounterRequest () {
 
 
 
-loadQuestion()
 
-HtmlObjCheckButton.addEventListener('click', checkAnswer)
-HtmlObjNextButton.addEventListener('click', function() {
-    loadQuestion()
-    HtmlObjQuestionContainer.classList.toggle('hidden')
-    HtmlObjResultContainer.classList.toggle('hidden')
-})
 
+
+function change_train_status_request() {
+    let href = '/words/trains/change-status/' + questionData['train']['id'] + '/'
+    let ajax = new XMLHttpRequest()
+    ajax.open('GET', href, true)
+    ajax.send()
+    ajax.addEventListener('readystatechange', function () {
+        if (this.readyState == 4 && this.status == 201) {
+            HtmlObjMarkAsStudiedBtn.classList.toggle('hidden')
+            HtmlObjReturnToStudyBtn.classList.toggle('hidden')
+        }
+    })
+}
