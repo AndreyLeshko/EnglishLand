@@ -39,56 +39,17 @@ class TrainObjectAPIView(APIView):
         return Response({'train': context})
 
 
-
-
 # ======================================================================================================================
-# перевод текстом en->ru / ru->en
-# mode = ['user_words', 'repeat_words']
-# how_translate = ['en-ru', 'ru-en']
+# Тренировки
 
 @login_required
 def words_text(request):
     return render(request, 'new_words/words_text.html')
 
 
-# ======================================================================================================================
-# перевод с вариантами en->ru / ru->en
-# mode = ['user_words']
-# how_translate = ['en-ru', 'ru-en']
-
 @login_required
-def words_with_variants(request, mode, how_translate):
-
-    context = {}
-
-    if mode != 'user_words':
-        return HttpResponseNotFound(f'No such mode as {mode}')
-
-    cur_train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
-
-    if not cur_train_obj:
-        context['empty'] = 1
-    else:
-        context['train_id'] = cur_train_obj.pk
-        if how_translate == 'ru-en':
-            context['word'] = cur_train_obj.word.translates.order_by('?').first()
-            context['translate'] = cur_train_obj.word.english
-        else:
-            context['word'] = cur_train_obj.word.english
-            context['translate'] = cur_train_obj.word.translates.order_by('?').first()
-
-        cur_train_obj.save()  # обновлляет дату последней попытки модели Train
-
-        variants_list = new_words_funcs.get_wrong_translation_variants(cur_train_obj, how_translate)
-
-        variants_list.append(context['translate'])
-        shuffle(variants_list)
-        context['variants'] = variants_list
-
-    context['mode'] = mode
-    context['how_translate'] = how_translate
-
-    return render(request, 'new_words/words_with_variants.html', context=context)
+def words_with_variants(request):
+    return render(request, 'new_words/words_with_variants.html')
 
 
 # ======================================================================================================================

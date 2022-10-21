@@ -13,7 +13,7 @@ urlpatterns = [
 
     # Trainer
     path('words-text/', views.words_text, name='words_text'),
-    path('words-with-variants/<mode>/<how_translate>/', views.words_with_variants, name='words_with_variants'),
+    path('words-with-variants/', views.words_with_variants, name='words_with_variants'),
 
     # DB
     path('add-new-word/', views.add_word, name='add_word'),
