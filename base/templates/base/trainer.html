@@ -25,8 +25,8 @@
                     <h3>Изучить слова</h3>
                     <a class="train-btn" href="{% url 'words:words_text' %}?&mode=study&lang=en-ru">EN --> RU</a>
                     <a class="train-btn" href="{% url 'words:words_text' %}?&mode=study&lang=ru-en">RU --> EN</a>
-                    <a class="train-btn" href="{% url 'words:words_with_variants' mode='user_words' how_translate='en-ru' %}?&mode=study&lang=en-ru">С вариантами <br> EN --> RU</a>
-                    <a class="train-btn" href="{% url 'words:words_with_variants' mode='user_words' how_translate='ru-en' %}?&mode=study&lang=ru-en">С вариантами <br> RU --> EN</a>
+                    <a class="train-btn" href="{% url 'words:words_with_variants' %}?&mode=study&lang=en-ru">С вариантами <br> EN --> RU</a>
+                    <a class="train-btn" href="{% url 'words:words_with_variants' %}?&mode=study&lang=ru-en">С вариантами <br> RU --> EN</a>
                 </div>
             </div>
     
