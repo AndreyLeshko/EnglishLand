@@ -1,15 +1,8 @@
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from django.db.models import F
+from django.core.exceptions import ObjectDoesNotExist
 
 from random import choice
 
 from new_words.models import Train, Vocabulary, WordEnglish, WordRussian, WordCategory
-
-
-def get_random_word() -> Vocabulary:
-    """Возвращает случайный объект модели Vocabulary"""
-    word_obj = Vocabulary.objects.order_by('?').first()
-    return word_obj
 
 
 def get_train_word_object(request, is_studied: bool) -> Train:
@@ -27,50 +20,16 @@ def get_train_word_object(request, is_studied: bool) -> Train:
     cur_train_obj = Train.objects \
         .filter(user=request.user).filter(is_studied=is_studied).filter(priority=random_priority) \
         .select_related('word').prefetch_related('word__translates').order_by('last_try', '?').first()
-    # если в бд нет слова с нужным приоритетом:
+    # если в бд нет слова с нужным приоритетом, выбираем с приоритетом на 1 меньше:
+    while not cur_train_obj and random_priority > 1:
+        random_priority -= 1
+        cur_train_obj = Train.objects \
+            .filter(user=request.user).filter(is_studied=is_studied).filter(priority=random_priority) \
+            .select_related('word').prefetch_related('word__translates').order_by('last_try', '?').first()
     if not cur_train_obj:
         cur_train_obj = Train.objects.filter(user=request.user).filter(is_studied=is_studied) \
             .select_related('word').prefetch_related('word__translates').order_by('last_try', '?').first()
     return cur_train_obj
-
-
-def get_possible_translations(word: str, how_translate: str) -> list:
-    """Возвращает список переводов заданного слова"""
-    if how_translate == 'ru-en':
-        translates = [i.english.english for i in Vocabulary.objects.filter(russian__russian=word)]
-    else:
-        translates = [i.russian.russian for i in Vocabulary.objects.filter(english__english=word)]
-    return translates
-
-
-def add_word_to_train(user, how_translate: str, word: str) -> None:
-    """Создаёт объект модели Train для выбранного пользователем слова"""
-    if how_translate == 'ru-en':
-        word_instance = Vocabulary.objects.select_related('russian').filter(russian__russian=word).first().english
-    else:
-        word_instance = WordEnglish.objects.get(english=word)
-    Train.objects.create(user=user, word=word_instance)
-
-
-def change_status_is_studied(train_id: int, new_status: bool) -> None:
-    """Меняет статус is_studied модели Train"""
-    cur_train = Train.objects.get(pk=train_id)
-    cur_train.is_studied = new_status
-    cur_train.save()
-
-
-def get_wrong_translation_variants(cur_train_obj: Train, how_translate: str) -> list:
-    """Возвращает список из трех заведомо неверных вариантов перевода"""
-    if how_translate == 'ru-en':
-        variants_obj = Vocabulary.objects.filter(category=cur_train_obj.word.vocabulary.first().category) \
-                                        .exclude(english=cur_train_obj.word) \
-                                        .order_by('?').values(word=F('english__english')).distinct()[:3]
-    else:
-        variants_obj = Vocabulary.objects.filter(category=cur_train_obj.word.vocabulary.first().category) \
-                                        .exclude(english=cur_train_obj.word) \
-                                        .order_by('?').values(word=F('russian__russian')).distinct()[:3]
-    variants_list = [variant['word'] for variant in variants_obj]
-    return variants_list
 
 
 def get_new_words_for_user(user):
@@ -124,24 +83,6 @@ def update_priority(train_id: int) -> None:
     cur_train.save()
 
 
-def increase_answer_counter(train_id: int, is_right) -> None:
-    """Увеличивает счетчик правильных/неправильных ответов на единницу и обновляет значение приоритета"""
-    cur_train = Train.objects.get(pk=train_id)
-    if is_right:
-        cur_train.correct_ans_cnt += 1
-    else:
-        cur_train.incorrect_ans_cnt += 1
-    cur_train.save()
-
-    update_priority(train_id)
-
-
-def inverse_train_status(train_id: int) -> None:
-    train_obj = Train.objects.get(pk=train_id)
-    train_obj.is_studied = not train_obj.is_studied
-    train_obj.save()
-
-
 def check_is_it_train_owner(username, train_id):
     train_obj = Train.objects.get(pk=train_id)
     if username == train_obj.user.username:
@@ -159,4 +100,3 @@ def translates_dict(train_obj):
         en_translates = [translate['english'] for translate in ru_translate_obj.translates.all().values('english')]
         context['russian'][ru_translate_obj.russian] = en_translates
     return context
-
