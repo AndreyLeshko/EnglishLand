@@ -12,13 +12,32 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="standart-container">
+    <div class="container">
         <h1>Регистрация</h1>
-        <h2>Заполните следующие поля:</h2>
-        <form action="." method="post">
-            {{ user_form.as_p }}
-            {% csrf_token %}
-            <p><input class="register-button" type="submit" value="Зарегистрироваться"></p>
-        </form>
+        <div class="register-form">
+            <form action="." method="post">
+
+                {% for field in user_form %}
+                    <div class="field">
+                        <div class="field-label">
+                            {{ field.label }}
+                        </div>
+                        {% if field.errors %}
+                            <div class="errors">
+                                {% for error in field.errors %}
+                                <div class="validation-errors">{{ error }}; </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="field-input">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+    
+                {% csrf_token %}
+                <p><input class="register-button" type="submit" value="Зарегистрироваться"></p>
+            </form>
+        </div>
     </div>
 {% endblock page_content %}
