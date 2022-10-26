@@ -12,19 +12,33 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <div class="standart-container">
+    <div class="container">
+        
         <h1>Вход</h1>
         {% if form.errors %}
-            <p>Введен неверный логин или пароль. Попробуйте снова</p>
+            <div class="errors">Введен неверный логин или пароль. Попробуйте снова</div>
         {% endif %}
+        
         <div class="login-form">
             <form action=".", method="post">
-                {{ form.as_p }}
+
+                {% for field in form %}
+                    <div class="field">
+                        <div class="field-label">
+                            {{ field.label }}
+                        </div>
+                        <div class="field-input">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ next }}">
-                <p><input class="login-button" type="submit" value="Войти"></p>
-                <p><a class="link" href="{% url 'account:password_reset' %}">Забыли пароль?</a></p>
-                <p><a class="link" href="{% url 'account:register' %}">Зарегистрироваться</a></p>
+                <p><input class="login-button button" type="submit" value="Войти"></p>
+
+                <div class="button"><a class="link" href="{% url 'account:password_reset' %}">Забыли пароль?</a></div>
+                <div class="button"><a class="link" href="{% url 'account:register' %}">Зарегистрироваться</a></div>
             </form>
         </div>
     </div>

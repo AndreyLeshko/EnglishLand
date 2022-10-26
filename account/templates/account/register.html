@@ -19,9 +19,11 @@
 
                 {% for field in user_form %}
                     <div class="field">
+
                         <div class="field-label">
                             {{ field.label }}
                         </div>
+
                         {% if field.errors %}
                             <div class="errors">
                                 {% for error in field.errors %}
@@ -29,9 +31,11 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
+
                         <div class="field-input">
                             {{ field }}
                         </div>
+                        
                     </div>
                 {% endfor %}
     
