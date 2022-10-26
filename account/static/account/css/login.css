@@ -1,48 +1,69 @@
-p {
-    font-size: 20px;
+/* ----------------------------------- FORM -------------------------------------- */
+
+.login-form {
+    width: 90%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
-input {
-    font-size: 18px;
+.field {
+    margin-bottom: 3vh;
 }
 
-.standart-container {
-    display: block;
-    background-color: #bfc9da;
-    padding: 10px; 5px;
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 30px 0px;
-    text-align: center;
-    width: 500px;
-    align-self: center;
+.field-label {
+    font-size: 90%;
+    font-weight: bold;
+    text-align: start;
 }
 
-.link {
-    font-size: 18px;
-    font-weight: normal;
-    border-radius: 10px;
-    background-color: rgba(23, 68, 161, 0.8);
-    padding: 5px;
-    text-decoration: none;
-    color: white;
-}
-
-.link:hover {
-    text-decoration: underline;
-    background-color: rgba(23, 68, 161, 1);
-
-}
-
-.login-button {
-    background-color: #82B93C;
-    background-color: rgba(5, 207, 20, 1);
-    font-size: 20px;
-    border-radius: 10px;
+.field-input input {
+    font-size: 100%;
+    width: 100%;
+    background-color: rgb(240, 240, 240);
+    border: 1px solid #9292927c;
     padding: 5px 10px;
 }
 
-.login-button:hover {
-    text-decoration: underline;
-    cursor: pointer;
+/* ----------------------------------- BUTTONS -------------------------------------- */
+
+.link {
+    font-size: 90%;
+    font-weight: normal;
+    border-radius: 10px;
+    border-color: #9292927c;
+    background-color: rgba(23, 68, 161, 0.9);
+    padding: 5px 20px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 2vh;
 }
+
+.link:hover {
+    background-color: rgba(23, 68, 161, 1);
+}
+
+.login-button {
+    background-color: rgba(0, 219, 26, 0.8);
+    width: 90%;
+    font-size: 100%;
+    font-weight: bold;
+    border-color: #9292927c;
+    border-radius: 15px;
+    padding: 7px 50px;
+    margin-bottom: 2vh;
+}
+
+.login-button:hover {
+    background-color: rgba(0, 219, 26, 1)
+}
+
+.button {
+    margin-bottom: 2vh;
+}
+
+.button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* -----------------------------------  -------------------------------------- */
