@@ -100,3 +100,12 @@ def translates_dict(train_obj):
         en_translates = [translate['english'] for translate in ru_translate_obj.translates.all().values('english')]
         context['russian'][ru_translate_obj.russian] = en_translates
     return context
+
+
+def add_word_to_train(user, how_translate: str, word: str) -> None:
+    """Создаёт объект модели Train для выбранного пользователем слова"""
+    if how_translate == 'ru-en':
+        word_instance = Vocabulary.objects.select_related('russian').filter(russian__russian=word).first().english
+    else:
+        word_instance = WordEnglish.objects.get(english=word)
+    Train.objects.create(user=user, word=word_instance)
