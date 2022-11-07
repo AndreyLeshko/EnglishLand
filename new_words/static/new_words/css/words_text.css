@@ -58,6 +58,11 @@
     justify-content: center;
 }
 
+.blue-link {
+    color: blue;
+    text-decoration: underline;
+}
+
 
 /* ------------------------------------------------------ */
 /* Results */

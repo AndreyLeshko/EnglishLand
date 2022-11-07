@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
@@ -10,6 +11,9 @@ urlpatterns = [
     path('api/words/', views.WordsAPIView.as_view()),
     path('api/train-object/', views.TrainObjectAPIView.as_view()),
     path('api/get-variants/<int:number_variants>/', views.get_possible_variants),
+    path('api/words/', views.WordsAPIView.as_view(), name='words'),
+    path('api/words/<int:pk>/', views.WordDetailApiView.as_view(), name='words_detail'),
+    path('api/add-word-to-train/', views.AddWordToTrain.as_view(), name='add_word_to_train'),
 
     # Trainer
     path('words-text/', views.words_text, name='words_text'),
@@ -17,6 +21,7 @@ urlpatterns = [
 
     # DB
     path('add-new-word/', views.add_word, name='add_word'),
+    path('words-review/', TemplateView.as_view(template_name='new_words/words_review.html'), name='words_review'),
 
     # Trains management
     path('trains/add-words-to-train/', views.add_words_to_train, name='add_words_to_train'),

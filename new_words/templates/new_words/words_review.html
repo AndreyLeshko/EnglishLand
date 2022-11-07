@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load random_numbers %}
+{% load my_filters %}
+
+
+
+{% block title %}
+    Список слов
+{% endblock title %}
+
+{% block css_links %}
+    <link rel="stylesheet" href="{% static 'new_words/css/words_review.css' %}?n={% random_int %}">
+{% endblock css_links %}
+
+{% block page_content %}
+  <div class="container">
+    <div class="filters">
+      <div class="status-filters filter-div">
+        <p><label for="status">Статус:</label></p>
+        <select name="status" id="status">
+          <option value="all" selected>Все</option>
+          <option value="new">Новые слова</option>
+          <option value="studied">Изученные слова</option>
+          <option value="on_study">Слова на изучении</option>
+        </select>
+      </div>
+      <div class="category-filters filter-div">
+        <p><label for="categories">Категории:</label></p>
+        <select name="categories" id="categories">
+          <option value="all" selected>Все</option>
+          <option value="noun">Существительные</option>
+          <option value="verb">Глаголы</option>
+          <option value="adverb">Наречия</option>
+          <option value="adjective">Прилагательные</option>
+          <option value="pronoun">Местоимения</option>
+          <option value="other">Другие</option>
+          <option value="unknown">Неизвестные</option>
+        </select>
+      </div>
+      <div class="tag-filters filter-div">
+        <p><label for="tags">Тэги:</label></p>
+        <select name="tags" id="tags">
+          <option value="null" selected>..........</option>
+          <option value="nukk">Тэги пока не добавлены(</option>
+        </select>
+      </div>
+    </div>
+    <div class="fitters-button-div">
+      <span class="fitters-button button">Применить фильтры</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <table id="words-table"></table>
+  </div>
+
+    <script src="{% static 'new_words/js/words_review.js' %}"></script>
+{% endblock page_content %}

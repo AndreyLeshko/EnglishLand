@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.urls import reverse
 
 
 class WordEnglish(models.Model):
@@ -10,10 +11,14 @@ class WordEnglish(models.Model):
     def __str__(self):
         return f'{self.english}'
 
+    def get_absolute_url(self):
+        return reverse('words:words_detail', args=(self.pk,))
+
 
 class WordRussian(models.Model):
     russian = models.CharField(max_length=100, unique=True)
     translates = models.ManyToManyField('WordEnglish', through='Vocabulary')
+
     def __str__(self):
         return f'{self.russian}'
 
@@ -30,12 +35,18 @@ class Vocabulary(models.Model):
                                 on_delete=models.CASCADE)
     russian = models.ForeignKey(WordRussian, related_name='vocabulary', verbose_name='russian_word_tb',
                                 on_delete=models.CASCADE)
-    category = models.ForeignKey(WordCategory, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(WordCategory, verbose_name='category', null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f'{self.english} - {self.russian}'
+
+    def __repr__(self):
+        return f'{self.english} - {self.russian}'
 
 
 class Train(models.Model):
-    word = models.ForeignKey(WordEnglish, verbose_name='Слово', related_name='word', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
+    word = models.ForeignKey(WordEnglish, verbose_name='Слово', related_name='trains', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='Пользователь', related_name='trains', on_delete=models.CASCADE)
     correct_ans_cnt = models.IntegerField(verbose_name='Верных ответов', default=0)
     incorrect_ans_cnt = models.IntegerField(verbose_name='Неверных ответов', default=0)
     priority = models.IntegerField(verbose_name='Приоритет',
@@ -43,3 +54,11 @@ class Train(models.Model):
                                    default=5)
     is_studied = models.BooleanField(verbose_name='Изучено', default=False)
     last_try = models.DateField(verbose_name='Дата последней попытки', auto_now=True)
+
+    class Meta:
+        ordering = ('-last_try', 'word__english')
+
+    def get_status(self):
+        if self.is_studied:
+            return 'studied'
+        return 'on study'

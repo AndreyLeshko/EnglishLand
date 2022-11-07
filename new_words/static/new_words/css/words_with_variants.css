@@ -24,6 +24,11 @@
     cursor: pointer;
 }
 
+.blue-link {
+    color: blue;
+    text-decoration: underline;
+}
+
 .word {
     font-size: 200%;
     font-family: 'Roboto', sans-serif;
