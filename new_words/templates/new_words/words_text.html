@@ -18,6 +18,12 @@
         <img src="{% static 'base/img/load_sign.gif' %}" alt="..." width="40px">
     </div>
 
+    <div class="container error hidden">
+        <p>У вас нет слов на изучении, добавьте слова для тренировки</p>
+        <p><a href="{% url 'words:words_review' %}" class="blue-link">Посмотреть список слов</a></p>
+        <p><a href="{% url 'words:add_words_to_train' %}" class="blue-link">Добавить слова</a></p>
+    </div>
+
     <div class="container question hidden">
         <p class="word">...</p>
         <p><input type="text" class="translate-input" autofocus></p>

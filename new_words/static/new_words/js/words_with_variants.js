@@ -46,7 +46,10 @@ function loadQuestion() {
         if (this.readyState == 4 && this.status == 200) {
                 questionData = JSON.parse(this.responseText)
                 loadVariants()       
-        } 
+        } else if (this.status == 404) {
+            HtmlObjLoadContainer.classList.add('hidden')
+            document.querySelector('.container.error').classList.remove('hidden')
+        }
     })
 }
 
@@ -64,7 +67,7 @@ function loadVariants() {
                 variantsData = JSON.parse(this.responseText)
                 createVariantsList()
                 updateQuestionContainerContent()                
-        } 
+        }
     })
 }
 

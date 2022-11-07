@@ -1,14 +1,49 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import WordEnglish, Train
+from .models import WordEnglish, WordRussian, Train, Vocabulary
 
 
-class WordSerializer(serializers.ModelSerializer):
+class WordEnSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WordEnglish
+        fields = ['id', 'english']
+
+
+class WordRuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WordRussian
+        fields = ['id', 'russian']
+
+
+class VocabularySerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='category.category_name')
+    russian = WordRuSerializer()
+
+    class Meta:
+        model = Vocabulary
+        fields = ['russian', 'category']
+
+
+class WordReviewSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    english = serializers.CharField()
+    details = serializers.CharField(source='get_absolute_url')
+    # details = serializers.HyperlinkedRelatedField(view_name='words:words_detail', read_only=True)
+    status = serializers.CharField(source='trains.first.get_status', allow_null=True)
+    vocabulary = VocabularySerializer(source='vocabulary.all', many=True)
 
     class Meta:
         model = WordEnglish
-        fields = ['english']
+        fields = ['id', 'english', 'details', 'status', 'vocabulary']
+
+
+class WordEnHyperlinkSerializer(serializers.ModelSerializer):
+    # details = WordEnglish
+
+    class Meta:
+        model = WordEnglish
+        fields = ['id', 'english']
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -24,9 +59,8 @@ class WordTrainSerializer(serializers.ModelSerializer):
 
 
 class TrainObjectSerializer(serializers.ModelSerializer):
-    word = WordSerializer()
-    user = UserSerializer()
+    word = WordEnHyperlinkSerializer(read_only=True)
 
     class Meta:
         model = Train
-        fields = ['word', 'user', 'priority', 'id']
+        fields = ['word', 'priority', 'id', 'is_studied']

@@ -44,9 +44,11 @@ function loadQuestion() {
                 questionData = JSON.parse(this.responseText)
                 console.log(questionData)
                 updateQuestionVariables()
-                updateQuestionContainerContent()
-                
-        } 
+                updateQuestionContainerContent()  
+        } else if (this.status == 404) {
+            HtmlObjLoadContainer.classList.add('hidden')
+            document.querySelector('.container.error').classList.remove('hidden')
+        }
     })
 }
 

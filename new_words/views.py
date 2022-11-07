@@ -1,8 +1,9 @@
 from random import shuffle
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,10 +12,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
-from .models import WordEnglish
-from .serializers import WordSerializer, WordTrainSerializer, TrainObjectSerializer
+from .models import WordEnglish, Train
+from .serializers import WordEnSerializer, WordTrainSerializer, TrainObjectSerializer, WordReviewSerializer
 from services import new_words_funcs
-from services.words import trains, vocabulary
+from services.words import trains, vocabulary, paginators
+from services.words.utils import WordsReview
 
 
 # ======================================================================================================================
@@ -22,21 +24,61 @@ from services.words import trains, vocabulary
 
 class WordsAPIView(generics.ListAPIView):
     queryset = WordEnglish.objects.all()
-    serializer_class = WordSerializer
+    serializer_class = WordEnSerializer
 
 
 class TrainObjectAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        http_status = 200
         if request.GET['mode'] == 'study':
             train_obj = new_words_funcs.get_train_word_object(request, is_studied=False)
         elif request.GET['mode'] == 'repeat':
             train_obj = new_words_funcs.get_train_word_object(request, is_studied=True)
+        if not train_obj:
+            http_status = 404
         serializer = TrainObjectSerializer(train_obj)
         context = serializer.data
         context['word'] = new_words_funcs.translates_dict(train_obj)
-        return Response({'train': context})
+        return Response({'train': context}, status=http_status)
+
+
+class WordsAPIView(APIView, paginators.WordsListPagination):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        filters = {}
+        if 'categories' in request.GET:
+            if request.GET['categories'] != 'all':
+                filters['categories'] = request.GET['categories'].split(',')
+        if 'status' in request.GET:
+            filters['status'] = request.GET['status']
+        if 'tags' in request.GET:
+            filters['tags'] = request.GET['tags']
+        print(filters)
+        words_queryset = WordsReview(filters, user_id=request.user.id).get_queryset()
+        page_queryset = self.paginate_queryset(words_queryset, request, view=self)
+        serializer = WordReviewSerializer(page_queryset, many=True)
+        return Response({'data': serializer.data})
+
+
+class WordDetailApiView(generics.RetrieveAPIView):
+    queryset = WordEnglish.objects.all()
+    serializer_class = WordEnSerializer
+
+
+class AddWordToTrain(APIView):
+    def post(self, request):
+        print(request.POST)
+        word_id = request.POST['word_id']
+        user = request.user.id
+        word_inst = WordEnglish.objects.get_object_or_404(pk=word_id)
+        if not Train.objects.get(user=user, word=word_inst):
+            Train.objects.create(user=user, word=word_inst)
+            return Response({'details': 'Слово успешно добавлено!'}, status=201)
+        else:
+            return Response({'details': 'Слово уже в списке тренировок!'}, status=400)
 
 
 # ======================================================================================================================
