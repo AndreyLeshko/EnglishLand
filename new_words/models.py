@@ -8,11 +8,17 @@ class WordEnglish(models.Model):
     english = models.CharField(max_length=100, unique=True)
     translates = models.ManyToManyField('WordRussian', through='Vocabulary')
 
+    class Meta:
+        ordering = ('english',)
+
     def __str__(self):
         return f'{self.english}'
 
     def get_absolute_url(self):
         return reverse('words:words_detail', args=(self.pk,))
+
+    def user_train(self, user_id):
+        return self.trains.objects.filter(user__id=user_id)
 
 
 class WordRussian(models.Model):
@@ -57,8 +63,3 @@ class Train(models.Model):
 
     class Meta:
         ordering = ('-last_try', 'word__english')
-
-    def get_status(self):
-        if self.is_studied:
-            return 'studied'
-        return 'on study'

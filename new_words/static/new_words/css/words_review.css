@@ -1,0 +1,66 @@
+.container {
+    border: none;
+    background: none;
+}
+
+.filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.filter-div {
+    margin: 5px 10px;
+    padding: 5px 10px;
+    border: 1px solid rgb(115, 113, 113);
+    border-radius: 10px;
+}
+
+.filter-div select {
+    background-color: rgb(224, 232, 243);
+    font-size: 80%;
+}
+
+#words-table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #dfdada7c;
+}
+
+#words-table th,
+#words-table td {
+    border: 1px solid black;
+    padding: 5px
+}
+
+.fitters-button-div {
+    display: flex
+    /* justify-content: f; */
+}
+
+.fitters-button {
+    display: inline;
+    justify-self: self-start;
+    padding: 5px 10px;
+    margin: 5px 20px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: rgb(11, 11, 152);
+    color: white;
+}
+
+.button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.page-link {
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0px 5px;
+}
+
+.active-page {
+    background-color: rgb(58, 107, 163);
+}
