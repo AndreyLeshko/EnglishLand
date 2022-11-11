@@ -1,7 +1,9 @@
 from random import shuffle
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import TemplateView
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -56,11 +58,18 @@ class WordsAPIView(APIView, paginators.WordsListPagination):
             filters['status'] = request.GET['status']
         if 'tags' in request.GET:
             filters['tags'] = request.GET['tags']
-        print(filters)
         words_queryset = WordsReview(filters, user_id=request.user.id).get_queryset()
         page_queryset = self.paginate_queryset(words_queryset, request, view=self)
         serializer = WordReviewSerializer(page_queryset, many=True)
-        return Response({'data': serializer.data})
+        context = {
+            'pagination': {
+                'cur_page': self.page.number,
+                'number_of_pages': self.page.paginator.num_pages,
+                'page_size': self.page_size,
+            },
+            'words': serializer.data,
+        }
+        return Response(context)
 
 
 class WordDetailApiView(generics.RetrieveAPIView):
@@ -70,15 +79,20 @@ class WordDetailApiView(generics.RetrieveAPIView):
 
 class AddWordToTrain(APIView):
     def post(self, request):
-        print(request.POST)
-        word_id = request.POST['word_id']
-        user = request.user.id
-        word_inst = WordEnglish.objects.get_object_or_404(pk=word_id)
-        if not Train.objects.get(user=user, word=word_inst):
+        word_id = request.data['word_id']
+        user = request.user
+
+        try:
+            word_inst = WordEnglish.objects.get(pk=word_id)
+        except ObjectDoesNotExist:
+            return Response({'details': 'Ошибка, слово с таким id отсутствует в базе данных'}, status=404)
+
+        try:
+            Train.objects.get(user=user, word=word_inst)
+            return Response({'details': 'Слово уже в списке тренировок!'}, status=400)
+        except ObjectDoesNotExist:
             Train.objects.create(user=user, word=word_inst)
             return Response({'details': 'Слово успешно добавлено!'}, status=201)
-        else:
-            return Response({'details': 'Слово уже в списке тренировок!'}, status=400)
 
 
 # ======================================================================================================================
@@ -116,6 +130,10 @@ def add_words_to_train(request):
     except EmptyPage:
         words = paginator.page(paginator.num_pages)
     return render(request, 'new_words/add_words_to_train.html', context={'words': words, 'page': page})
+
+
+class WordsReviewView(LoginRequiredMixin, TemplateView):
+    template_name = 'new_words/words_review.html'
 
 
 # ======================================================================================================================

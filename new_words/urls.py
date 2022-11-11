@@ -21,7 +21,7 @@ urlpatterns = [
 
     # DB
     path('add-new-word/', views.add_word, name='add_word'),
-    path('words-review/', TemplateView.as_view(template_name='new_words/words_review.html'), name='words_review'),
+    path('words-review/', views.WordsReviewView.as_view(), name='words_review'),
 
     # Trains management
     path('trains/add-words-to-train/', views.add_words_to_train, name='add_words_to_train'),

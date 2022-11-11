@@ -29,8 +29,7 @@ class WordReviewSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     english = serializers.CharField()
     details = serializers.CharField(source='get_absolute_url')
-    # details = serializers.HyperlinkedRelatedField(view_name='words:words_detail', read_only=True)
-    status = serializers.CharField(source='trains.first.get_status', allow_null=True)
+    status = serializers.CharField(source='train_status')
     vocabulary = VocabularySerializer(source='vocabulary.all', many=True)
 
     class Meta:
@@ -39,8 +38,6 @@ class WordReviewSerializer(serializers.ModelSerializer):
 
 
 class WordEnHyperlinkSerializer(serializers.ModelSerializer):
-    # details = WordEnglish
-
     class Meta:
         model = WordEnglish
         fields = ['id', 'english']
