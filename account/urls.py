@@ -3,10 +3,8 @@ from django.contrib.auth import views as auth_views
 
 from .views import personal_page, register, edit
 
-app_name = 'account'
 
 urlpatterns = [
-    # path('personal-page/', personal_page, name='personal_page'),
     path('profile/', personal_page, name='personal_page'),
     path('register/', register, name='register'),
     path('edit/', edit, name='edit'),

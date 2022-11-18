@@ -154,12 +154,13 @@ nav {
 
 .container {
     display: block;
+    width: 95%;
     border: 2px solid rgb(166, 168, 168);
     background-color: white;
     border-radius: 10px;
     text-align: center;
     font-size: 80%;
-    margin: 1% 0%;
+    margin: 2vh auto;
     padding: 1%;
 }
 
