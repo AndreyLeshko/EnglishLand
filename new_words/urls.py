@@ -24,7 +24,6 @@ urlpatterns = [
     path('words-review/', views.WordsReviewView.as_view(), name='words_review'),
 
     # Trains management
-    path('trains/add-words-to-train/', views.add_words_to_train, name='add_words_to_train'),
     path('trains/change-status/<int:train_id>/', views.change_train_status, name='change_train_status'),
     path('trains/increase-attempt-counter/<int:train_id>/<is_right>/', views.increase_attempt_counter, name='increase_attempt_counter')
 ]

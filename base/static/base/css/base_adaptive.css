@@ -9,50 +9,59 @@
     body {
         /* font-size: 40px; */
     }
-    .header-logo {
-        width: 15%;
+    .header-logo img {
+        width: 15vh;
     }
-    
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 992px) {
     body {
-        font-size: 30px;
+        /* font-size: 30px; */
+        font-size: 3vw;
     }
     nav {
         display: none;
     }
     .burger-menu-btn {
         display: flex;
+        width: 8vh;
+        height: 8vh;
+        margin: 1vh;
     }
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 768px) {
     body {
-        font-size: 30px;
+        /* font-size: 30px; */
+        font-size: 4vw;
+    }
+    .header-logo img {
+        width: 10vh;
     }
     .burger-menu-btn {
-        width: 40px;
-        height: 40px;
+        width: 6vh;
+        height: 6vh;
     }
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 480px) {
     body {
-        font-size: 30px;
+        /* font-size: 30px; */
+        font-size: 4.5vw;
     }
     .burger-menu-btn {
-        width: 40px;
-        height: 40px;
+        width: 6vh;
+        height: 6vh;
     }
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 320px) {
     body {
-        font-size: 30px;
+        /* font-size: 30px; */
+        font-size: 5vw;
     }
 }

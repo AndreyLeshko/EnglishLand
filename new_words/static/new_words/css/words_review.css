@@ -1,6 +1,7 @@
 .container {
     border: none;
     background: none;
+    margin: 0 auto;
 }
 
 .filters {
@@ -21,7 +22,16 @@
     font-size: 80%;
 }
 
+.small-text {
+    font-size: 60%;
+}
+
+.table-container {
+    overflow-x: scroll;
+}
+
 #words-table {
+    overflow-x: scroll;
     border-collapse: collapse;
     width: 100%;
     background-color: #dfdada7c;

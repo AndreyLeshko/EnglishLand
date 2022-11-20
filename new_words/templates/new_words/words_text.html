@@ -20,7 +20,7 @@
 
     <div class="container error hidden">
         <p>У вас нет слов на изучении, добавьте слова для тренировки</p>
-        <p><a href="{% url 'words:add_words_to_train' %}" class="blue-link">Добавить слова</a></p>
+        <p><a href="{% url 'words:words_review' %}" class="blue-link">Добавить слова</a></p>
     </div>
 
     <div class="container question hidden">
@@ -31,7 +31,7 @@
                 Проверить
             </span>
         </div>
-        <div>
+        <div class="btn-div">
             <div class="mark-as-studied-btn hidden">
                 Отметить как изученное
             </div>
@@ -48,7 +48,7 @@
         <p class="translate-attempt"></p>
         <p class="right-ans"></p>
         <p class="other-translates"></p>
-         <div>
+         <div class="btn-div">
             <span class="next-btn">
                 Дальше
             </span>
