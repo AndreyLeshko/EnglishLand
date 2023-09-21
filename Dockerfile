@@ -8,6 +8,5 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
-CMD  ['python3 manage.py collectstatic --noinput', '&&', '/bin/sh','-c','python manage.py runserver']
 
 COPY . /app/
