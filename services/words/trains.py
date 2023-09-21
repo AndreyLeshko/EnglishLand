@@ -1,9 +1,10 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import F
+from django.db.models import F, Q, When, Case, Value
 
 from new_words.models import Train, Vocabulary
 
 
+# ======================================================================================================================
 class CurrentTrain:
 
     def __init__(self, train_id):
@@ -34,32 +35,50 @@ class CurrentTrain:
             self.http_status = 201
 
     def increase_answer_counter(self, is_right):
-        """Увеличивает счетчик ответов на единницу и обновляет значение приоритета"""
+        """
+            - Увеличивает счетчик ответов на единницу
+            - Обновляет счетчик прогресса
+            - Обновляет значение приоритета
+            - Сохраняет изменения
+        """
         if self.is_owner and self.train is not None:
             if is_right:
                 self.train.correct_ans_cnt += 1
             else:
                 self.train.incorrect_ans_cnt += 1
-            self.train.save()
+
+            self._update_progress_counter(is_right)
             self._update_priority()
+
+            self.train.save()
             self.http_status = 201
+
+    def _update_progress_counter(self, is_right):
+        if self.is_owner and self.train is not None:
+            if is_right:
+                self.train.progress += 4
+                if self.train.progress > 100:
+                    self.train.progress = 100
+            else:
+                self.train.progress -= 12
+                if self.train.progress < 0:
+                    self.train.progress = 0
 
     def _update_priority(self):
         """Пересчитывает значение приоритета"""
-        correct_ans_percent = self.train.correct_ans_cnt / \
-                              (self.train.incorrect_ans_cnt + self.train.correct_ans_cnt) * 100
-        if 0 <= correct_ans_percent <= 20:
+        progress = self.train.progress
+
+        if 0 <= progress <= 20:
             new_priority = 5
-        elif 21 <= correct_ans_percent <= 40:
+        elif 21 <= progress <= 40:
             new_priority = 4
-        elif 41 <= correct_ans_percent <= 60:
+        elif 41 <= progress <= 60:
             new_priority = 3
-        elif 61 <= correct_ans_percent <= 80:
+        elif 61 <= progress <= 80:
             new_priority = 2
         else:
             new_priority = 1
         self.train.priority = new_priority
-        self.train.save()
 
 
 # ======================================================================================================================

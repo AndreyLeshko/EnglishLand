@@ -55,6 +55,9 @@ class Train(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', related_name='trains', on_delete=models.CASCADE)
     correct_ans_cnt = models.IntegerField(verbose_name='Верных ответов', default=0)
     incorrect_ans_cnt = models.IntegerField(verbose_name='Неверных ответов', default=0)
+    progress = models.IntegerField(verbose_name='Счетчик прогресса',
+                                   default=0,
+                                   validators=(MinValueValidator(0), MaxValueValidator(40)))
     priority = models.IntegerField(verbose_name='Приоритет',
                                    validators=(MinValueValidator(1), MaxValueValidator(5)),
                                    default=5)

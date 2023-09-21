@@ -21,24 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpk')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-if 'DEBUG' in os.environ:
-    DEBUG = False
-    host = db_name = username = password = ''
-else:
-    DEBUG = True
-    import Study_Project.CONF
-    host = Study_Project.CONF.HOST
-    db_name = Study_Project.CONF.NAME
-    username = Study_Project.CONF.USER
-    password = Study_Project.CONF.PASSWORD
-    SECRET_KEY = Study_Project.CONF.SECRET_KEY
-
+SECRET_KEY = os.environ.get('SECRET_KEY', 'xxxxx')
+DEBUG = bool(int(os.environ.get('DJANGO_DEBUG', 1)))
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', '127.0.0.1')
+POSTGRES_DB = os.environ.get('POSTGRES_DB', 'postgres')
+POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'postgres')
+POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '5432')
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -93,14 +84,12 @@ WSGI_APPLICATION = 'Study_Project.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('POSTGRES_HOST', host),
-        'NAME': os.environ.get('POSTGRES_DB', db_name),
-        'USER': os.environ.get('POSTGRES_USER', username),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', password),
-        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'HOST': POSTGRES_HOST,
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'PORT': POSTGRES_PORT,
     }
 }
 

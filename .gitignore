@@ -1,7 +1,6 @@
 /.idea/
 /venv/
 /static/
+/media/
 /Study_Project/CONF.py
-Dockerfile
-docker-compose.yml
 db.sqlite3

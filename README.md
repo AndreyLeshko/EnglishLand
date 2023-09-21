@@ -33,18 +33,33 @@
      - "SECRET_KEY" - секретный ключ для Django
        
    (файл должен располагаться в той же директории, что и settings.py)
-   
 
-6. Создать и выполнить миграции
+5. Создать и выполнить миграции
     ```shell script
     python manage.py makemigrations
     python manage.py migrate
     ```
    
-7. Запустить приложение
+6. Запустить приложение
     ```shell script
    python manage.py runserver 
     ```
+   
+## Запуск через Docker
+
+1. Указываем необходимые системные переменные
+2. Запускаем сервис 
+   ```commandline
+   docker-compose up
+   ```
+3. Подключаемся к контейнеру с приложением и подготавливаем базу данных
+   ```commandline
+   docker exec -it english_land_app sh
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
+
+
 ## Примечания
 На текущий момент есть возможность выбрать слова для изучения
 и тренировать их. Слова можно отмечать как изученные, тогда они 

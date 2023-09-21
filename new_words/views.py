@@ -109,28 +109,6 @@ def words_with_variants(request):
 
 
 # ======================================================================================================================
-# добавление/смена статуса слов
-
-@login_required
-def add_words_to_train(request):
-    """Показывает список неизученных слов, отмеченные слова добавляет для тренировки"""
-
-    if request.method == 'POST':
-        for param in request.POST:
-            if 'on' in request.POST[param]:
-                new_words_funcs.add_word_to_train(request.user, how_translate='en-ru', word=param)
-
-    new_words = new_words_funcs.get_new_words_for_user(request.user)
-    paginator = Paginator(new_words, 20)
-    page = request.GET.get('page')
-    try:
-        words = paginator.page(page)
-    except PageNotAnInteger:
-        words = paginator.page(1)
-    except EmptyPage:
-        words = paginator.page(paginator.num_pages)
-    return render(request, 'new_words/add_words_to_train.html', context={'words': words, 'page': page})
-
 
 class WordsReviewView(LoginRequiredMixin, TemplateView):
     template_name = 'new_words/words_review.html'

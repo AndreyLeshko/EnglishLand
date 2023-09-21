@@ -6,7 +6,7 @@
 body {
     margin: 0px;
     background-color: #EDEEF0;
-    font-size: 30px;
+    font-size: 24px;
 }
 
 a {
@@ -48,6 +48,7 @@ nav {
     align-items: center;
     margin: 0px;
     padding: 5px 15px;
+    font-size: 150%;
     font-family: Georgia;
     font-weight: normal;
     border: 0px solid;
@@ -154,12 +155,13 @@ nav {
 
 .container {
     display: block;
+    width: 95%;
     border: 2px solid rgb(166, 168, 168);
     background-color: white;
     border-radius: 10px;
     text-align: center;
     font-size: 80%;
-    margin: 1% 0%;
+    margin: 2vh auto;
     padding: 1%;
 }
 

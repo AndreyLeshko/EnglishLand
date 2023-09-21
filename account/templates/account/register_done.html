@@ -12,6 +12,9 @@
 {% endblock css_links %}
 
 {% block page_content %}
-    <h1>Вы успешно зарегистрировались</h1>
-    <p>Теперь вы можете <a href="{% url 'account:login' %}">войти</a> в свой аккаунт</p>
+    <div class="container">
+        <h1>Вы успешно зарегистрировались</h1>
+        <p>Теперь вы можете <a href="{% url 'login' %}">войти</a> в свой аккаунт</p>
+    </div>
+    
 {% endblock page_content %}

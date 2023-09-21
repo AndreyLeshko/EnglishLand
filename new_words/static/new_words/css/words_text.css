@@ -1,11 +1,12 @@
 .word {
     margin: 2vh;
     padding: 10px;
-    font-size: 200%;
+    font-size: 300%;
+    font-weight: bold;
 }
 
 .translate-input {
-    font-size: 150%;
+    font-size: 250%;
     text-align: center;
     padding: 5px;
     margin: 2vh 0vh;
@@ -15,7 +16,7 @@
 
 .check-btn,
 .next-btn {
-    font-size: 150%;
+    font-size: 200%;
     margin: 3vh 0vh;
     padding: 5px 10px;
     background-color: rgba(23, 68, 161, 0.9);
@@ -29,6 +30,10 @@
     cursor: pointer;
     background-color: rgba(23, 68, 161, 1);
     text-decoration: underline;
+}
+
+.btn-div {
+    margin-bottom: 2vh;
 }
 
 #stud {
@@ -68,7 +73,7 @@
 /* Results */
 
 .verdict {
-    font-size: 200%;
+    font-size: 300%;
     font-weight: bold;
     border-bottom: 1px solid #64656D;
     margin: 0px;
@@ -85,24 +90,25 @@
 }
 
 .question-word {
-    margin: 2vh;
+    margin: 1vh;
     padding: 10px;
-    font-size: 200%;
+    font-size: 300%;
+    font-weight: bold;
 }
 
 .translate-attempt {
-    font-size: 170%;
+    font-size: 270%;
     margin: 2vh 0vh;
 }
 
 .right-ans {
-    font-size: 200%;
+    font-size: 250%;
     text-decoration: underline;
     margin: 2vh 0vh;
 }
 
 .other-translates {
-    font-size: 140%;
+    font-size: 200%;
     font-style: italic;
     margin: 2vh 0vh;
 }
