@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             echo "Load updates"
-            cd /usr/English_Land
+            cd /usr/EnglishLand
             git pull origin master
             echo "Updates loaded"
             ls
