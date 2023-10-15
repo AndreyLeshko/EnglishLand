@@ -23,3 +23,16 @@ jobs:
             git pull origin master
             echo "Updates loaded"
             ls
+
+      - name: Restart service
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            echo "Restart application"
+            cd /usr/EnglishLand
+            docker-compose -f docker-compose.yml down
+            docker-compose -f docker-compose.yml up -d
+            echo "Application restarted"
