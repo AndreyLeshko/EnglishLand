@@ -18,7 +18,6 @@
         </div>
         <nav>
             <a href="{% url 'base:main_page' %}" class="nav-link">Главная</a>
-            <a href="{% url 'base:section_in_development' %}" class="nav-link">Грамматика</a>
             <a href="{% url 'base:trainer' %}" class="nav-link">Тренажер</a>
 
             {% if request.user.is_authenticated %}
@@ -41,7 +40,6 @@
 
         <div class="burger-menu-nav">
             <a href="{% url 'base:main_page' %}" class="nav-link">Главная</a>
-<!--            <a href="{% url 'base:section_in_development' %}" class="nav-link">Грамматика</a>-->
             <a href="{% url 'base:trainer' %}" class="nav-link">Тренажер</a>
 
             {% if request.user.is_authenticated %}
@@ -57,6 +55,8 @@
             {% endif %}
         </div>
     </div>
+
+    <!--  BURGER MENU  -->
     <script>
         let btn = document.querySelector(".burger-menu-btn")
         let burgerNav = document.querySelector(".burger-menu-nav")
@@ -65,6 +65,11 @@
             burgerNav.classList.toggle('active')
         }
         btn.addEventListener('click', switchClass)
+    </script>
+
+    <!--  Page sizes  -->
+    <script>
+
     </script>
 
 
