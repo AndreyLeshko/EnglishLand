@@ -2,22 +2,37 @@ name: Django CD
 
 on:
   push:
+    branches: [ "master", "develop" ]
+  pull_request:
     branches: [ "master" ]
-  # pull_request:
-  #   branches: [ "master" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
 
-  build:
-
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy
-        run: |
-          echo "Deploying"
-          echo "End deploying"
-          ls
+      - name: Update VPS git local repository
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            echo "Load updates"
+            cd /usr/EnglishLand
+            git pull origin master
+            echo "Updates loaded"
+            ls
 
+      - name: Restart service
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            echo "Restart application"
+            cd /usr/EnglishLand
+            docker-compose -f docker-compose.yml down
+            docker-compose -f docker-compose.yml up -d
+            echo "Application restarted"

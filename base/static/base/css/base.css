@@ -1,12 +1,22 @@
+:root {
+  --header-height: 10vh;
+}
+
 * {
     padding: 0px;
     margin: 0px;
+}
+
+html {
+    height: auto;
 }
 
 body {
     margin: 0px;
     background-color: #EDEEF0;
     font-size: 24px;
+    height: auto;
+    margin-bottom: 0px;
 }
 
 a {
@@ -19,7 +29,9 @@ a {
 
 .header {
     display: flex;
+    margin: 0;
     width: 100%;
+    height: var(--header-height);
     justify-content: space-between;
     align-items: center;
     background-color: #284178;
@@ -27,17 +39,17 @@ a {
 }
 
 .header-logo {
-    max-height: 100px;
     align-self: center;
+    height: calc(var(--header-height) - 1vh);
 }
 
 .header-logo img {
-    width: 100px;
+    height: 100%;
 }
 
 nav {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin: 0px;
     padding: 10px;
 }
@@ -109,10 +121,10 @@ nav {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 50px;
-    height: 50px;
+    width: calc(var(--header-height) - 2vh);
+    height: calc(var(--header-height) - 2vh);
     border-radius: 50%;
-    margin: 20px;
+    margin: 1vh;
 }
 
 .burger-menu-line {
@@ -161,7 +173,7 @@ nav {
     border-radius: 10px;
     text-align: center;
     font-size: 80%;
-    margin: 2vh auto;
+    margin: 1vh auto;
     padding: 1%;
 }
 

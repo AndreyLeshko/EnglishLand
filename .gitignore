@@ -4,3 +4,6 @@
 /media/
 /Study_Project/CONF.py
 db.sqlite3
+add_words_to_db.py
+NewWords.xlsx
+.env
